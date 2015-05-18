@@ -3,10 +3,6 @@ package genindex;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-/*
-import java.sql.Statement;
-import java.sql.ResultSet;
-*/
 
 public class BDD {
 
@@ -32,11 +28,6 @@ public class BDD {
         String utilisateur = "td2";
         String motDePasse = "OST";
         Connection connexion = null;
-
-        /*
-        Statement statement = null;
-        ResultSet resultat = null;
-        */
 
         try {
             messages=messages+"Connexion à la base de données...\n";
