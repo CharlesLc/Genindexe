@@ -18,11 +18,20 @@ public class Exemple_Use_Bdd {
     
     /* BIEN SUR, CE CODE NE MARCHE PAS, C'est du code à lire on va dire ;) */
     
-    public String test_bdd(){
+    public void test_bdd(){
         
-        String cequetuveux = ""; /*RETURN, donc pas forcément un string*/
         
         String messages ="";
+        
+        try {
+            messages=messages+"Chargement du driver...\n";
+            Class.forName( "com.mysql.jdbc.Driver" );
+            messages=messages+"Driver chargé !\n";
+        } catch ( ClassNotFoundException e ) {
+            messages=messages+"Erreur lors du chargement : le driver n'a pas été trouvé dans le classpath ! \n"
+                    + e.getMessage() +"\n";
+        }
+        
         String url = "jdbc:mysql://192.168.24.16/td2";
         String utilisateur = "td2";
         String motDePasse = "OST";
@@ -119,6 +128,5 @@ public class Exemple_Use_Bdd {
             }
         }
         System.out.println(messages);
-        return cequetuveux;
     }
 }

@@ -19,7 +19,6 @@ public class Main_genindex {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        BDD bd = new BDD();
         Frame_mother main= new Frame_mother();
     }
     
