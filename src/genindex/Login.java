@@ -1,4 +1,4 @@
-
+package genindex;
 
 import javax.swing.*;
 import java.awt.*;
