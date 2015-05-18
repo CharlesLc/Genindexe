@@ -1,24 +1,21 @@
 package genindex;
 
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-//package genindex;
 
 /**
  * 18/05/2015
  * @author Maëva
  */
-public class InterfaceUtilisateur  extends JFrame{
+public class InterfaceUtilisateur  extends JPanel{
    private JButton bouNouvClient, bouNouvCommande, bouNouvEspece, bouNouvCategorie;
    private JLabel labFonctionUser, labNomUser, labPrenomUser;
    private JTextArea textFonctionUser, textNomUser, textPrenomUser;
    
-   public InterfaceUtilisateur ()
+   public InterfaceUtilisateur (Frame_mother h)
    {
-           //Nom de la page
-           this.setTitle("Utilisateur");
-           
            //Boutons
            bouNouvClient = new JButton ("Créer Nouveau Client");
            bouNouvCommande = new JButton ("Créer Nouvelle Commande");
@@ -27,13 +24,29 @@ public class InterfaceUtilisateur  extends JFrame{
            
            //Labels
            labFonctionUser = new JLabel ("Fonction: ");
+           labFonctionUser.setHorizontalAlignment(JLabel.CENTER);
+           labFonctionUser.setVerticalAlignment(JLabel.CENTER);
+           
            labNomUser = new JLabel ("Nom: ");
+           labNomUser.setHorizontalAlignment(JLabel.CENTER);
+           labNomUser.setVerticalAlignment(JLabel.CENTER);
+           
            labPrenomUser = new JLabel ("Prénom: ");
+           labPrenomUser.setHorizontalAlignment(JLabel.CENTER);
+           labPrenomUser.setVerticalAlignment(JLabel.CENTER);
+           
+           //TextArea
+           textFonctionUser = new JTextArea(3, 20);
+           textFonctionUser.setEditable(false);
+           textNomUser = new JTextArea(3, 20);
+           textNomUser.setEditable(false);
+           textPrenomUser = new JTextArea(3, 20);
+           textPrenomUser.setEditable(false);
            
            //Panels
            //Premier panel: il comprend les informations de l'utilisateur
            JPanel infoUser = new JPanel();
-           infoUser.setLayout(new GridLayout(2,3));
+           infoUser.setLayout(new GridLayout(3,2));
            infoUser.add(labFonctionUser);
            infoUser.add(textFonctionUser);
            infoUser.add(labNomUser);
@@ -45,7 +58,7 @@ public class InterfaceUtilisateur  extends JFrame{
            //ce panel sera mis en visible(false) si l'utilisateur est un validateur 
            //ou un technicien
            JPanel panelSecretaire = new JPanel();
-           panelSecretaire.setLayout(new GridLayout(1,4));
+           panelSecretaire.setLayout(new GridLayout(4,1));
            panelSecretaire.add(bouNouvClient);
            panelSecretaire.add(bouNouvCommande);
            panelSecretaire.add(bouNouvEspece);
@@ -54,19 +67,18 @@ public class InterfaceUtilisateur  extends JFrame{
            
            //Panel regroupant les autres panels
            JPanel panelGeneral = new JPanel();
-           panelGeneral.setLayout(new GridLayout(1,2));
+           panelGeneral.setLayout(new GridLayout(2,1));
            panelGeneral.add(infoUser);
            panelGeneral.add(panelSecretaire);           
            
            //this setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
            this.add(panelGeneral);
-           this.pack();
+           //this.pack();
            this.setVisible(true);          
    }
    
-   public static void main (String[] args)
-   {
-       new InterfaceUtilisateur();
-   }  
+   public JPanel getPanel(){
+        return this;
+    } 
     
 }
