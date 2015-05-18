@@ -16,38 +16,47 @@ import javax.swing.*;
  */
 public class FormulaireClient extends JPanel implements ActionListener{
     
-    private JTextArea textNom;
+    private JTextField textNom;
     private JLabel labelNom;
-    private JTextArea textVille;
+    private JTextField textVille;
     private JLabel labelVille;
     private JButton buttonEnvoyer;
     private JButton buttonAnnuler; 
-    private Frame_mother fo;
+    private Frame_mother frame;
     //private JPanel panelClient; 
     
-    public FormulaireClient (Frame_mother f) {
+    private String nom, ville;
+    
+    public FormulaireClient (Frame_mother interfaceUti) {
         
-        fo = f;
+        frame = interfaceUti;
         // NOM
         labelNom = new JLabel("Nom"); 
         labelNom.setHorizontalAlignment(JLabel.CENTER);
         labelNom.setVerticalAlignment(JLabel.CENTER);
-        textNom = new JTextArea(5, 20);
+        textNom = new JTextField(20);
         //JScrollPane scrollPane = new JScrollPane(textNom); 
-        textNom.setEditable(false);
+        
         // VILLE
         labelVille = new JLabel("Ville"); 
         labelVille.setHorizontalAlignment(JLabel.CENTER);
         labelVille.setVerticalAlignment(JLabel.CENTER);
-        textVille = new JTextArea(5, 20);
+        textVille = new JTextField(20);
         //JScrollPane scrollPane2 = new JScrollPane(textVille); 
-        textVille.setEditable(false);
+        
         // ENVOYER
         buttonEnvoyer = new JButton("Envoyer");
         buttonEnvoyer.addActionListener(this);
+        
         // ANNULER
         buttonAnnuler = new JButton("Annuler");
-        
+        buttonAnnuler.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                InterfaceUtilisateur secretaire = new InterfaceUtilisateur(frame);
+                frame.setFrame(secretaire);
+            }
+        });
+                
         //panelClient = new JPanel();
         this.setLayout(new GridLayout(3,2));
         this.add(labelNom);
@@ -65,12 +74,19 @@ public class FormulaireClient extends JPanel implements ActionListener{
     
     public void actionPerformed(ActionEvent ae)
     {
-        if (ae.getSource()== buttonEnvoyer)
-        {
-            Login lo = new Login();
-            fo.setFrame(lo);
-            
-        }
+        //if (ae.getSource()== buttonEnvoyer)
+        //{
+        //   Login lo = new Login();
+        //    fo.setFrame(lo);
+        //   
+        //}
+        nom = textNom.getText();
+        textNom.setText("");
+        
+        ville = textVille.getText();
+        textVille.setText("");
+        
+        
         
     }
 }
