@@ -27,6 +27,12 @@ public class InterfaceUtilisateur  extends JPanel{
             });
            
            bouNouvCommande = new JButton ("Créer Nouvelle Commande");
+           bouNouvCommande.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                FormulaireCommande nouvelleCommande = new FormulaireCommande(frame);
+                frame.setFrame(nouvelleCommande);}
+            });
+           
            bouNouvEspece = new JButton ("Créer Nouvelle Espece");
            bouNouvCategorie = new JButton ("Créer Nouvelle Catégorie Espece");
            
