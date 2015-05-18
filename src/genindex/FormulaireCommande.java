@@ -35,11 +35,11 @@ public class FormulaireCommande extends JPanel implements ActionListener{
     
     private final JButton Envoyer;
     private final JButton Annuler; 
-    private final Frame_mother fo; 
+    private final Frame_mother frame; 
     
-    public FormulaireCommande (Frame_mother f) {
+    public FormulaireCommande (Frame_mother interfaceUti) {
     
-    fo = f;
+    frame = interfaceUti;
     JPanel p1 = new JPanel();
     p1.setLayout(new BoxLayout(p1, BoxLayout.LINE_AXIS));
     Client = new JLabel(" Client : ", JLabel.CENTER);
@@ -87,7 +87,13 @@ public class FormulaireCommande extends JPanel implements ActionListener{
     Envoyer = new JButton("Envoyer");
    // Envoyer.setPreferredSize(new Dimension(120, 30));
     Annuler = new JButton("Annuler");
-   // Annuler.setPreferredSize(new Dimension(120, 30));
+    Annuler.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+        InterfaceUtilisateur secretaire = new InterfaceUtilisateur(frame);
+        frame.setFrame(secretaire);
+        }
+    });
+   
     p6.add(Envoyer);
     p6.add(Annuler);
     
