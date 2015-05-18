@@ -14,17 +14,18 @@ public class Frame_mother
     private JFrame f;
     //private FormulaireClient p;
     private Login l;
-    private JPanel j;
+   // private JPanel j;
     private JPanel h;
 
     public Frame_mother(){
         f = new JFrame ("Genindex");
         f.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
         
-        j = new FormulaireClient(this);
+        //l = new Login(this);
+        
         h = new InterfaceUtilisateur(this);
         
-        f.add(j);
+        //f.add(l);
         f.add(h);
         //Login login = new Login(f);
         
@@ -34,10 +35,8 @@ public class Frame_mother
     
     public void setFrame (JPanel newPan)
     {
-        f.remove(j);
-        j = newPan;
+        f.remove(h);
         h = newPan;
-        f.add(j);
         f.add(h);
         
     }

@@ -13,11 +13,19 @@ public class InterfaceUtilisateur  extends JPanel{
    private JButton bouNouvClient, bouNouvCommande, bouNouvEspece, bouNouvCategorie;
    private JLabel labFonctionUser, labNomUser, labPrenomUser;
    private JTextArea textFonctionUser, textNomUser, textPrenomUser;
+   private Frame_mother frame;
    
-   public InterfaceUtilisateur (Frame_mother h)
+   public InterfaceUtilisateur (Frame_mother formulaireClient)
    {
+           frame = formulaireClient;
            //Boutons
            bouNouvClient = new JButton ("Créer Nouveau Client");
+           bouNouvClient.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                FormulaireClient nouveauClient = new FormulaireClient(frame);
+                frame.setFrame(nouveauClient);}
+            });
+           
            bouNouvCommande = new JButton ("Créer Nouvelle Commande");
            bouNouvEspece = new JButton ("Créer Nouvelle Espece");
            bouNouvCategorie = new JButton ("Créer Nouvelle Catégorie Espece");
@@ -65,6 +73,8 @@ public class InterfaceUtilisateur  extends JPanel{
            panelSecretaire.add(bouNouvCategorie);
            panelSecretaire.isVisible();
            
+           
+           
            //Panel regroupant les autres panels
            JPanel panelGeneral = new JPanel();
            panelGeneral.setLayout(new GridLayout(2,1));
@@ -80,5 +90,5 @@ public class InterfaceUtilisateur  extends JPanel{
    public JPanel getPanel(){
         return this;
     } 
-    
+   
 }
