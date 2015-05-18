@@ -1,4 +1,4 @@
-package genindex;
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -7,7 +7,7 @@ import java.sql.*;
 
 public class Login 
         extends JPanel
-        //implements ActionListener
+        implements ActionListener
 {
     private JLabel l1, l2, l3;
     private JTextField tf1;
@@ -51,13 +51,13 @@ public class Login
         this.add(p3);
         this.add(p4);
 
-        //btn1.addActionListener(this);
+        btn1.addActionListener(this);
     }
-    /*
+    
         public void actionPerformed(ActionEvent e){
         showData();
         }
-     */   
+        
     public void showData(){
         JFrame f1 = new JFrame();
 
@@ -67,8 +67,8 @@ public class Login
         try
         {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/userdatabase","root","password");
-            PreparedStatement ps = con.prepareStatement("select name from reg where email=? and pass=?");
+            Connection con = DriverManager.getConnection("jdbc:mysql://192.168.24.16/td2","td2","OST");
+            PreparedStatement ps = con.prepareStatement("select jobid from user where login=? and passwd=?");
             ps.setString(1, str1);
             ps.setString(2, str2);
             ResultSet rs = ps.executeQuery();
