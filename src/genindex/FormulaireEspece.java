@@ -1,4 +1,5 @@
 package genindex;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,10 +17,10 @@ public class FormulaireEspece
     private JButton buttonEnvoyer;
     private JButton buttonAnnuler; 
     private Frame_mother frame;
-    //private JPanel panelClient; 
     
     public FormulaireEspece (Frame_mother interfaceUti) {
         frame = interfaceUti;
+        
         // NOM D'ESPECE
         labelSpecie = new JLabel("Nom d'espèce :"); 
         labelSpecie.setHorizontalAlignment(JLabel.CENTER);
@@ -30,9 +31,10 @@ public class FormulaireEspece
         // ENVOYER
         buttonEnvoyer = new JButton("Envoyer");
         buttonEnvoyer.addActionListener(this);
+        
         // ANNULER
         buttonAnnuler = new JButton("Annuler");
-        buttonEnvoyer.addActionListener(this);
+        buttonAnnuler.addActionListener(this);
         
         //panelClient = new JPanel();
         this.setLayout(new GridLayout(3,1));
@@ -67,7 +69,7 @@ public class FormulaireEspece
         
         else if (ae.getSource()== buttonAnnuler)
             {
-                InterfaceUtilisateur secretaire = new InterfaceUtilisateur (frame);
+                InterfaceUtilisateur secretaire = new InterfaceUtilisateur(frame);
                 frame.setFrame(secretaire);
             }
     }
