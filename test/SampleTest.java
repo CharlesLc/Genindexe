@@ -1,5 +1,7 @@
 
 
+
+
 import static org.junit.Assert.*;
 import org.junit.After;
 import org.junit.Before;
@@ -35,7 +37,7 @@ public class SampleTest
     {
         Custo = new Customer("Michel", "Paris");
         Order = new Order(Custo);
-        Specie = new Specie("Félin");
+        Specie = new Specie("FÔøΩlin");
         Sexing = new SexingTest(Specie, 8, 12, 0, 0);
     }
 
@@ -145,9 +147,9 @@ public class SampleTest
     @Test
     public void Test_isCompleted_Unreadable_After_Validated()
     {
-        //Dans un cas idéal, on ne devrait pas pouvoir ajouter un result alors que le
-        // dernier effectué est validé (true). Il faut empêcher cela.
-        // NÈanmoins, le test est tout de mÍme complÈtÈ, ce qui est satisfaisant.
+        //Dans un cas ideal, on ne devrait pas pouvoir ajouter un result alors que le
+        // dernier effectue est valide (true). Il faut empecher cela.
+        // Neanmoins, le test est tout de meme complete, ce qui est satisfaisant.
         Sample sample1 = new Sample(Sexing, Specie, Order);
         RawData male = new RawData(1, 1);
         RawData female = new RawData(2, 2);
