@@ -1,6 +1,7 @@
 package genindex;
 
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -12,24 +13,27 @@ import java.sql.ResultSet;
  */
 public class Exemple_Use_Bdd {
     
-    /* 
-    La classe BDD renvoie un objet connexion de sorte à se connecter qu'une fois (cf. BDD et main)
-    Il faut donc passer l'objet connexion en paramètre dans toutes les classes reliées avec
-    */
-    
     private String nomToto;
     private String nomTata;
     
     /* BIEN SUR, CE CODE NE MARCHE PAS, C'est du code à lire on va dire ;) */
     
-    public String test_bdd(Connection connexion){/*Hyper important le paramètre*/
+    public String test_bdd(){
         
         String cequetuveux = ""; /*RETURN, donc pas forcément un string*/
         
         String messages ="";
+        String url = "jdbc:mysql://192.168.24.16/td2";
+        String utilisateur = "td2";
+        String motDePasse = "OST";
+        Connection connexion = null;
         Statement statement = null;
         ResultSet resultat = null;
         try {
+            messages=messages+"Connexion à la base de données...\n";
+            connexion = DriverManager.getConnection( url, utilisateur, motDePasse );
+            messages=messages+"Connexion réussie !\n";
+            
             /* Création de l'objet gérant les requêtes */
             statement = connexion.createStatement();
             messages=messages+"Objet requête créé !\n";
@@ -103,6 +107,13 @@ public class Exemple_Use_Bdd {
             if ( statement != null ) {
                 try {
                     statement.close();
+                } catch ( SQLException ignore ) {
+                }
+            }
+            messages=messages+"Fermeture de l'objet Connection.\n";
+            if ( connexion != null ) {
+                try {
+                    connexion.close();
                 } catch ( SQLException ignore ) {
                 }
             }
