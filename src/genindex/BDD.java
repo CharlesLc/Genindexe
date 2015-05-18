@@ -18,27 +18,5 @@ public class BDD {
         }
         System.out.println(messages);
     }
-    
-    public Connection connexion(){
-
-        String messages = "";
-        
-        /* Connexion à la base de données */
-        String url = "jdbc:mysql://192.168.24.16/td2";
-        String utilisateur = "td2";
-        String motDePasse = "OST";
-        Connection connexion = null;
-
-        try {
-            messages=messages+"Connexion à la base de données...\n";
-            connexion = DriverManager.getConnection( url, utilisateur, motDePasse );
-            messages=messages+"Connexion réussie !\n";
-        } catch ( SQLException e ) {
-            messages=messages+"Erreur lors de la connexion : "
-                    + e.getMessage() +"\n";
-        }
-        System.out.println(messages+"\n");
-        return connexion;
-    }
 }
 
