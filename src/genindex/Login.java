@@ -5,18 +5,24 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
 
-public class Login extends JFrame implements ActionListener{
-    JLabel l1, l2, l3;
-    JTextField tf1;
-    JButton btn1;
-    JPasswordField p1;
+public class Login 
+        extends JPanel
+        //implements ActionListener
+{
+    private JLabel l1, l2, l3;
+    private JTextField tf1;
+    private JButton btn1;
+    private JPasswordField p1;
+    private JLabel l, l0;
  
-    Login(){
+    public Login (){
+        /*
         setTitle("Login Form in Windows Form");
         setVisible(true);
         setSize(800, 800);
         setLayout(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        */
         l1 = new JLabel("Login Form in Windows Form:");
         l1.setForeground(Color.blue);
         l1.setFont(new Font("Serif", Font.BOLD, 20));
@@ -25,6 +31,8 @@ public class Login extends JFrame implements ActionListener{
         tf1 = new JTextField();
         p1 = new JPasswordField();
         btn1 = new JButton("Submit");
+        l = new JLabel();
+        l0 = new JLabel("you are succefully logged in..");
         l1.setBounds(100, 30, 400, 30);
         l2.setBounds(80, 70, 200, 30);
         l3.setBounds(80, 110, 200, 30);
@@ -32,22 +40,22 @@ public class Login extends JFrame implements ActionListener{
         p1.setBounds(300, 110, 200, 30);
         btn1.setBounds(150, 160, 100, 30);
 
-        add(l1);
-        add(l2);
-        add(tf1);
-        add(l3);
-        add(p1);
-        add(btn1);
+        this.add(l1);
+        this.add(l2);
+        this.add(tf1);
+        this.add(l3);
+        this.add(p1);
+        this.add(btn1);
 
-        btn1.addActionListener(this);
+        //btn1.addActionListener(this);
     }
+    /*
         public void actionPerformed(ActionEvent e){
         showData();
         }
-        
+     */   
     public void showData(){
         JFrame f1 = new JFrame();
-        JLabel l, l0;
 
         String str1 = tf1.getText();
         char[] p = p1.getPassword();
@@ -65,8 +73,7 @@ public class Login extends JFrame implements ActionListener{
                 f1.setVisible(true);
                 f1.setSize(600, 600);
                 f1.setLayout(null);
-                l = new JLabel();
-                l0 = new JLabel("you are succefully logged in..");
+                
                 l0.setForeground(Color.blue);
                 l0.setFont(new Font("Serif", Font.BOLD, 30));
                 l.setBounds(60, 50, 400, 30);
@@ -89,8 +96,5 @@ public class Login extends JFrame implements ActionListener{
             System.out.println(ex);
         }
     }
-    public static void main(String arr[])
-    {
-        new Login();
-    }
+
 }
