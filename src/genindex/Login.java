@@ -15,7 +15,7 @@ public class Login
     private JPasswordField pass1;
     private JLabel l, l0;
  
-    public Login (){
+    public Login (Frame_mother h){
       
         
         l1 = new JLabel("Login Form");
