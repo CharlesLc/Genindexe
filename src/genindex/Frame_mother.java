@@ -21,12 +21,12 @@ public class Frame_mother
         f = new JFrame ("Genindex");
         f.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
         
-        //l = new Login(this);
+        l = new Login(this);
         
-        h = new InterfaceUtilisateur(this);
+        //h = new InterfaceUtilisateur(this);
         
-        //f.add(l);
-        f.add(h);
+        f.add(l);
+        //f.add(h);
         //Login login = new Login(f);
         
         f.pack();
@@ -35,7 +35,7 @@ public class Frame_mother
     
     public void setFrame (JPanel newPan)
     {
-        f.remove(h);
+        f.remove(l);
         h = newPan;
         f.add(h);
         

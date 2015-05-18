@@ -14,10 +14,12 @@ public class Login
     private JButton btn1;
     private JPasswordField pass1;
     private JLabel l, l0;
+    private Frame_mother frame;
+    private InterfaceUtilisateur IntUti;
  
     public Login (Frame_mother h){
       
-        
+        frame=h;
         l1 = new JLabel("Login Form");
         l1.setForeground(Color.blue);
         l1.setFont(new Font("Serif", Font.BOLD, 20));
@@ -74,21 +76,8 @@ public class Login
             ResultSet rs = ps.executeQuery();
             if (rs.next())
             {
-                f1.setVisible(true);
-                f1.setSize(600, 600);
-                f1.setLayout(null);
-                
-                l0.setForeground(Color.blue);
-                l0.setFont(new Font("Serif", Font.BOLD, 30));
-                l.setBounds(60, 50, 400, 30);
-                l0.setBounds(60, 100, 400, 40);
-
-                f1.add(l);
-                f1.add(l0);
-                l.setText("Welcome " + rs.getString(1));
-                l.setForeground(Color.red);
-                l.setFont(new Font("Serif", Font.BOLD, 30));
-
+                IntUti=new InterfaceUtilisateur(frame);
+                frame.setFrame(IntUti);
             } else
             {
                 JOptionPane.showMessageDialog(null,
