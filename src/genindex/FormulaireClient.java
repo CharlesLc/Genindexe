@@ -5,10 +5,11 @@
  */
 package genindex;
 
+import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import javax.swing.*;
+import java.sql.*;
 
 /**
  *
@@ -23,11 +24,17 @@ public class FormulaireClient extends JPanel implements ActionListener{
     private JButton buttonEnvoyer;
     private JButton buttonAnnuler; 
     private Frame_mother frame;
+    
+    private JLabel titre;
     //private JPanel panelClient; 
     
     private String nom, ville;
     
     public FormulaireClient (Frame_mother interfaceUti) {
+        
+        // Titre page
+        titre = new JLabel("Ajout d'un client");
+        titre.setFont(new Font("Serif", Font.BOLD, 20));
         
         frame = interfaceUti;
         // NOM
@@ -81,15 +88,52 @@ public class FormulaireClient extends JPanel implements ActionListener{
         //   
         //}
         nom = textNom.getText();
-        textNom.setText("");
-        
         ville = textVille.getText();
-        textVille.setText("");
         
         
+        try
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://192.168.24.16/td2","td2","OST");
+            PreparedStatement recherche = con.prepareStatement("select name from customer where name=? and town=?");
+            recherche.setString(1, nom);
+            recherche.setString(2, ville);
+            ResultSet resultatRecherche = recherche.executeQuery();
+            if (resultatRecherche.next())
+            {
+                // Déjà présent
+                JOptionPane.showMessageDialog(null,"Le client existe déjà");
+               
+
+            } else
+            {
+                PreparedStatement ajout = con.prepareStatement("insert into customer(name,town) values(?,?)");
+                ajout.setString(1, nom);
+                ajout.setString(2, ville);
+                int resultatAjout = ajout.executeUpdate();
+                if (resultatAjout == 1)
+                {
+                    // Ajout réussi
+                    textVille.setText("");
+                    textNom.setText("");
+                    JOptionPane.showMessageDialog(null,"Ajout réussi");
+                }
+                else 
+                {
+                    // Ajout non réussi
+                    JOptionPane.showMessageDialog(null,"Ajout non réussi");
+                } 
+            }
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex);
+        }
+    
+    }   
         
-    }
 }
+
     
     
     
