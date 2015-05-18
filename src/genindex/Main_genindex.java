@@ -5,6 +5,9 @@
  */
 package genindex;
 
+
+import java.sql.Connection;
+
 /**
  *
  * @author Charles
@@ -16,6 +19,8 @@ public class Main_genindex {
      */
     public static void main(String[] args) {
         // TODO code application logic here
+        BDD bd = new BDD();
+        Connection connexion = bd.connexion();
         Frame_mother main= new Frame_mother();
     }
     

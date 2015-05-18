@@ -3,64 +3,51 @@ package genindex;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+/*
 import java.sql.Statement;
 import java.sql.ResultSet;
+*/
 
 public class BDD {
 
-    public String exemple() {
-
-        Connection conn = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-        
-        String data = "";
-        
+    public BDD() {
+        String messages = "";
         try {
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/jst_test","root","");
-
-            // Connexion réussie
-
-            stmt = conn.createStatement();
-            rs = stmt.executeQuery("SELECT * FROM table1");
-
-            // parcours de l'ensemble des reponses
-            while (rs.next()) {
-                int id = rs.getInt("id");
-                String nom = rs.getString("nom");
-
-                data += "ID: " + id + ", Nom: " + nom + "<br/>";
-            }
-        } catch (SQLException ex) {
-            // handle any errors
-            System.out.println("SQLException: " + ex.getMessage());
-            System.out.println("SQLState: " + ex.getSQLState());
-            System.out.println("VendorError: " + ex.getErrorCode());
-        } finally {
-            if (rs != null) {
-                try {
-                    rs.close();
-                } catch (SQLException sqlEx) {
-                } // ignore
-                rs = null;
-            }
-            if (stmt != null) {
-                try {
-                    stmt.close();
-                } catch (SQLException sqlEx) {
-                } // ignore
-                stmt = null;
-            }
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException sqlEx) {
-                } // ignore
-                conn = null;
-            }
+            messages=messages+"Chargement du driver...\n";
+            Class.forName( "com.mysql.jdbc.Driver" );
+            messages=messages+"Driver chargé !\n";
+        } catch ( ClassNotFoundException e ) {
+            messages=messages+"Erreur lors du chargement : le driver n'a pas été trouvé dans le classpath ! \n"
+                    + e.getMessage() +"\n";
         }
-        return data;
+        System.out.println(messages);
     }
+    
+    public Connection connexion(){
 
+        String messages = "";
+        
+        /* Connexion à la base de données */
+        String url = "jdbc:mysql://192.168.24.16/td2";
+        String utilisateur = "td2";
+        String motDePasse = "OST";
+        Connection connexion = null;
+
+        /*
+        Statement statement = null;
+        ResultSet resultat = null;
+        */
+
+        try {
+            messages=messages+"Connexion à la base de données...\n";
+            connexion = DriverManager.getConnection( url, utilisateur, motDePasse );
+            messages=messages+"Connexion réussie !\n";
+        } catch ( SQLException e ) {
+            messages=messages+"Erreur lors de la connexion : "
+                    + e.getMessage() +"\n";
+        }
+        System.out.println(messages+"\n");
+        return connexion;
+    }
 }
 
