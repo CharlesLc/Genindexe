@@ -8,6 +8,10 @@ package genindex;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,7 +26,6 @@ import javax.swing.JTextField;
 public class FormulaireCommande extends JPanel implements ActionListener{
     
     private final JLabel Client;
-    //Faire une liste déroulante pour les clients à partir de la BDD
     private final JComboBox ListClient;
     private final JLabel Categorie;
     private final JTextField TextCategorie;
@@ -42,12 +45,29 @@ public class FormulaireCommande extends JPanel implements ActionListener{
     
     actualPanel=this;
     frame = interfaceUti;
+    
     JPanel p1 = new JPanel();
     p1.setLayout(new BoxLayout(p1, BoxLayout.LINE_AXIS));
     Client = new JLabel(" Client : ", JLabel.CENTER);
     Client.setPreferredSize(new Dimension(120, 30));
+    // Affiche une liste déroulante contenant les nom des client présent dans la base de donnée
     ListClient = new JComboBox();
     ListClient.setPreferredSize(new Dimension(160, 30));
+    try
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://192.168.24.16/td2","td2","OST");
+            Statement state = con.createStatement();
+            ResultSet result = state.executeQuery("SELECT name FROM customer");
+            while(result.next()){
+                ListClient.addItem(result.getString("name"));
+            } 
+        }
+    catch (Exception ex)
+        {
+            System.out.println(ex);
+        }
+
     p1.add(Client);
     p1.add(ListClient);
     
@@ -87,12 +107,11 @@ public class FormulaireCommande extends JPanel implements ActionListener{
     JPanel p6 = new JPanel();
     p6.setLayout(new BoxLayout(p6, BoxLayout.LINE_AXIS));
     Envoyer = new JButton("Envoyer");
-   // Envoyer.setPreferredSize(new Dimension(120, 30));
     Annuler = new JButton("Annuler");
     Annuler.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-        InterfaceUtilisateur secretaire = new InterfaceUtilisateur(frame);
-        frame.setFrame(secretaire,actualPanel);
+            InterfaceUtilisateur secretaire = new InterfaceUtilisateur(frame);
+            frame.setFrame(secretaire,actualPanel);
         }
     });
    
@@ -107,7 +126,6 @@ public class FormulaireCommande extends JPanel implements ActionListener{
     global.add(p4);
     global.add(p5);
     global.add(p6);
-    
     
     this.add(global);
     
