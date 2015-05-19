@@ -64,7 +64,13 @@ public class InterfaceUtilisateur  extends JPanel{
             frame.setFrame(visuCommande);}
         });
         bouNouvScrapie = new JButton ("Créer Test de Tremblement");
+        
         bouNouvSexing = new JButton ("Créer Test de Sexage");
+        bouNouvSexing.addActionListener(new ActionListener(){
+        public void actionPerformed (ActionEvent e) {
+            SexingTest nouvSexing = new SexingTest(frame);
+            frame.setFrame(nouvSexing);}
+        });
 
         bouMicroplaques = new JButton ("Faire Microplaque");
         bouVisuResultats = new JButton ("Visualiser Resultats");
