@@ -5,9 +5,11 @@
  */
 package genindex;
 
-import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.*;
+import java.awt.event.*;
+import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.*;
 
 /**
@@ -16,17 +18,20 @@ import javax.swing.*;
  */
 public class rechercheCommande extends JPanel implements ActionListener{
         
-    private JTextField textRechercheNom;
+    private JComboBox listClient;
+//    private JTextField textRechercheNom;
     private JLabel labelRechercheNom;
     private JButton bouttonRechercher;
     private JButton bouttonAnnuler;
     private JLabel titre;
+    private JTextArea InformationClient;
     private Frame_mother frame;
-    private JPanel actualPanel; //Correspond au panel actuel qui sera remove quand on appuie sur un bouton qui envoie ailleurs
-    
+    private String resultSelected;
+    private String monId;
+    private String monNom;
+
     public rechercheCommande(Frame_mother interfaceUti)
     {
-        actualPanel=this;
         frame = interfaceUti;
         
         // Titre page
@@ -35,9 +40,22 @@ public class rechercheCommande extends JPanel implements ActionListener{
        
         // Recherche client
         labelRechercheNom = new JLabel("Saisir le nom du client");
-        textRechercheNom = new JTextField(20);
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://192.168.24.16/td2","td2","OST");
+            PreparedStatement recherche = con.prepareStatement("select customerID,name from customer");
+            ResultSet resultatRecherche = recherche.executeQuery();  
+  
+            listClient = new JComboBox();
+            listClient.setPreferredSize(new Dimension(160, 30));        
+            while ( resultatRecherche.next()) {
+                listClient.addItem(resultatRecherche.getString("customerID") + " " + resultatRecherche.getString("name"));
+            }
+        } catch (Exception ex) {
+            System.out.println(ex);
+        }
 
-         // Rechercher
+        // Rechercher
         bouttonRechercher = new JButton("Rechercher");
         bouttonRechercher.addActionListener(this);
 
@@ -46,14 +64,48 @@ public class rechercheCommande extends JPanel implements ActionListener{
         bouttonAnnuler.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 InterfaceUtilisateur validateur = new InterfaceUtilisateur(frame);
-                frame.setFrame(validateur,actualPanel);
+                frame.setFrame(validateur,validateur);
             }
         });
-       
+        
+        InformationClient = new JTextArea();
+        InformationClient.setEditable(false);
+        this.setLayout(new GridLayout(5,1));
+        this.add(titre);
+        this.add(listClient);
+        this.add(bouttonRechercher);
+        this.add(bouttonAnnuler);
+        this.add(InformationClient);
+
     }
     
     public void actionPerformed(ActionEvent ae)
     {
-        
+        resultSelected = listClient.getSelectedItem().toString();
+        String[] tabSplitResult = resultSelected.split(" ");
+        monId = tabSplitResult[0]; 
+        monNom = tabSplitResult[1]; 
+        try
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://192.168.24.16/td2","td2","OST");
+            PreparedStatement recherche = con.prepareStatement("select orderID,status from orders natural join customer where customerID=?");
+            recherche.setString(1, monId);
+            ResultSet resultatRecherche = recherche.executeQuery();
+            if (resultatRecherche.next())
+            {
+                InformationClient.append("Client : " + monNom + "\t ID Commande : " + resultatRecherche.getString("orderID") + "\t Statut : " + resultatRecherche.getString("status") + "\n");
+                while ( resultatRecherche.next()) {
+                    InformationClient.append("Client : " + monNom + "\t ID Commande : " + resultatRecherche.getString("orderID") + "\t Statut : " + resultatRecherche.getString("status") + "\n");
+                }
+            } else
+            {
+               InformationClient.setText("Client : " + monNom + "\t *Pas de commande*");
+            }
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex);
+        }
     }
 }

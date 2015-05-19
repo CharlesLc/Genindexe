@@ -22,11 +22,11 @@ public class Frame_mother
         f = new JFrame ("Genindex");
         f.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
         
-        l = new Login(this);
+        h = new Login(this);
         
         //h = new InterfaceUtilisateur(this);
         
-        f.add(l);
+        f.add(h);
         //f.add(h);
         //Login login = new Login(f);
         
@@ -36,8 +36,10 @@ public class Frame_mother
     
     public void setFrame (JPanel newPan, JPanel ancienPan)
     {
-        f.remove(ancienPan);
-        f.add(newPan);
+
+        f.remove(h);
+        h = newPan;
+        f.add(h);
         //f.validate(); // Permet de voir le nouveau panel SANS re-size de fenêtre
         f.pack(); // Permet de voir le nouveau panel AVEC re-size de fenêtre
     }
