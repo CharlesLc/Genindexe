@@ -13,7 +13,8 @@ public class Frame_mother
 {
     private JFrame f;
     //private FormulaireClient p;
-    private Login l;
+    //private Login l;
+    private JPanel l;
    // private JPanel j;
     private JPanel h;
 
@@ -21,7 +22,7 @@ public class Frame_mother
         f = new JFrame ("Genindex");
         f.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
         
-        l = new Login(this);
+        l = new FormulaireEspece(this);
         
         //h = new InterfaceUtilisateur(this);
         
@@ -38,7 +39,8 @@ public class Frame_mother
         f.remove(l);
         h = newPan;
         f.add(h);
-        
+        //f.validate(); // Permet de voir le nouveau panel SANS re-size de fenêtre
+        f.pack(); // Permet de voir le nouveau panel AVEC re-size de fenêtre
     }
     
     
