@@ -112,7 +112,7 @@ public class FormulaireCommande extends JPanel implements ActionListener{
     Annuler = new JButton("Annuler");
     Annuler.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
-            InterfaceUtilisateur secretaire = new InterfaceUtilisateur(frame);
+            InterfaceUtilisateur secretaire = new InterfaceUtilisateur(frame,"","");
             frame.setFrame(secretaire);
         }
     });

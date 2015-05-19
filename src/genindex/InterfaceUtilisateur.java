@@ -19,9 +19,12 @@ public class InterfaceUtilisateur  extends JPanel{
    private Frame_mother frame;
    private JPasswordField pass1;
    private JTextField tf1;
+   private String str1,str2;
   
-   public InterfaceUtilisateur (Frame_mother formulaireClient)
+   public InterfaceUtilisateur (Frame_mother formulaireClient,String log,String psswd)
     {
+        str1=log;
+        str2=psswd;
         frame = formulaireClient;
         //Boutons
         bouNouvClient = new JButton ("Créer Nouveau Client");
@@ -135,33 +138,32 @@ public class InterfaceUtilisateur  extends JPanel{
 
 
        //Récupération de la fonction de l'utilisateur -- ne fonctionne pas
-        String str1 = tf1.getText();
-        char[] p = pass1.getPassword();
-        String str2 = new String(p);
         try
-        {
-        Class.forName("com.mysql.jdbc.Driver");
-        Connection con = DriverManager.getConnection("jdbc:mysql://192.168.24.16/td2","td2","OST");
-        PreparedStatement ps = con.prepareStatement("SELECT jobname FROM job NATURAL JOIN user WHERE login=? and passwd=?");
-        ps.setString(1, str1);
-        ps.setString(2, str2);
-        ResultSet rs = ps.executeQuery();
-        String result = rs.getString("jobname");
-        //le jobid de Secretaire est 1
-        //login:secretary  mdp: secretary
-        if (result=="Secretary"){
-            panelSecretaire.setVisible(true);
-        //le jobid de Technicien est 3
-        //login:technician  mdp:technician
-        }else if (result=="Technician"){
-            panelTechnicien.setVisible(true);
-        }
-         //le jobid de Validateur est 2 
-         //login:validator  mdp:validator
-        else if (result=="Validator"){
-            panelValidateur.setVisible(true);
-        }
-        }
+            {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://192.168.24.16/td2","td2","OST");
+            PreparedStatement ps = con.prepareStatement("SELECT jobname FROM job NATURAL JOIN user WHERE login=? and passwd=?");
+            ps.setString(1, str1);
+            ps.setString(2, str2);
+            ResultSet rs = ps.executeQuery();
+            rs.next();
+            String result = rs.getString("jobname");
+            //le jobid de Secretaire est 1
+            //login:secretary  mdp: secretary
+            if (result.equals("Secretary")){
+                System.out.println("Secretaire");
+                panelSecretaire.setVisible(true);
+            //le jobid de Technicien est 3
+            //login:technician  mdp:technician
+            }else if (result.equals("Technician")){
+                panelTechnicien.setVisible(true);
+            }
+             //le jobid de Validateur est 2 
+             //login:validator  mdp:validator
+            else if (result.equals("Validator")){
+                panelValidateur.setVisible(true);
+            }
+            }
     catch (Exception ex)
     {
         System.out.println(ex);

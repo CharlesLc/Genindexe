@@ -16,6 +16,7 @@ public class Login
     private JLabel l, l0;
     private Frame_mother frame;
     private InterfaceUtilisateur IntUti;
+    private String str1,str2;
  
     public Login (Frame_mother h){
       
@@ -63,9 +64,9 @@ public class Login
     public void showData(){
         JFrame f1 = new JFrame();
 
-        String str1 = tf1.getText();
+        str1 = tf1.getText();
         char[] p = pass1.getPassword();
-        String str2 = new String(p);
+        str2 = new String(p);
         try
         {
             Class.forName("com.mysql.jdbc.Driver");
@@ -76,8 +77,8 @@ public class Login
             ResultSet rs = ps.executeQuery();
             if (rs.next())
             {
-                IntUti=new InterfaceUtilisateur(frame);
-                frame.setFrame(IntUti);
+                IntUti=new InterfaceUtilisateur(frame,str1,str2);
+                frame.setFrameLogin(IntUti);
             } else
             {
                 JOptionPane.showMessageDialog(null,
@@ -88,6 +89,14 @@ public class Login
         {
             System.out.println(ex);
         }
+    }
+    public String retourneLogin()
+    {
+        return (str1);
+    }
+    public String retournePasswd()
+    {
+        return (str2);
     }
 
 }
