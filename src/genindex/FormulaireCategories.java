@@ -44,7 +44,7 @@ public class FormulaireCategories extends JPanel implements ActionListener{
         bouttonAnnuler = new JButton("Annuler");
         bouttonAnnuler.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                InterfaceUtilisateur secretaire = new InterfaceUtilisateur(frame);
+                InterfaceUtilisateur secretaire = new InterfaceUtilisateur(frame,"","");
                 frame.setFrame(secretaire);
             }
         });

@@ -17,32 +17,52 @@ public class Frame_mother
     //private JPanel l;
    // private JPanel j;
     private JPanel h;
+    private String login,psswd;
 
     public Frame_mother(){
         f = new JFrame ("Genindex");
         f.setDefaultCloseOperation (JFrame.EXIT_ON_CLOSE);
         
-        h = new Login(this);
+        l = new Login(this);
         
         //h = new FormulaireEspece(this);
         
-        f.add(h);
-        //f.add(h);
-        //Login login = new Login(f);
+        f.add(l);
+
         
         f.pack();
         f.setVisible(true);
     }
     
+    public void setFrameLogin (JPanel newPan) //JPanel ancienPan)
+    {
+            f.remove(l);
+            h=newPan;
+            f.add(newPan);
+            //f.validate(); // Permet de voir le nouveau panel SANS re-size de fenêtre
+            f.pack(); // Permet de voir le nouveau panel AVEC re-size de fenêtre
+        }
+    
     public void setFrame (JPanel newPan)
     {
-
-        f.remove(h);
-        h = newPan;
-        f.add(h);
-        //f.validate(); // Permet de voir le nouveau panel SANS re-size de fenêtre
-        f.pack(); // Permet de voir le nouveau panel AVEC re-size de fenêtre
+        if (newPan instanceof InterfaceUtilisateur)
+        {
+            f.remove(h);
+            login=l.retourneLogin();
+            psswd=l.retournePasswd();
+            h=new InterfaceUtilisateur(this,login,psswd);
+            f.add(h);
+            f.pack(); // Permet de voir le nouveau panel AVEC re-size de fenêtre
+        }
+        else
+        {
+            f.remove(h);
+            h=newPan;
+            f.add(h);
+            f.pack(); // Permet de voir le nouveau panel AVEC re-size de fenêtre
+        }
+        
+    
+    
     }
-    
-    
 }

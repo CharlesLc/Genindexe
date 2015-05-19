@@ -118,7 +118,7 @@ public class FormulaireEspece extends JPanel implements ActionListener {
                 JOptionPane.showMessageDialog(this, "Vous n'avez rien saisi. Veuillez réessayer", "Champ vide", JOptionPane.ERROR_MESSAGE);
             } 
         } else if (ae.getSource() == buttonAnnuler) {
-            InterfaceUtilisateur secretaire = new InterfaceUtilisateur(frame);
+            InterfaceUtilisateur secretaire = new InterfaceUtilisateur(frame,"","");
             frame.setFrame(secretaire);
         }
     }
