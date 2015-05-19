@@ -11,8 +11,9 @@ import java.sql.*;
  * @author Maëva
  */
 public class InterfaceUtilisateur  extends JPanel{
-   private JButton bouNouvClient, bouNouvCommande, bouNouvEspece, bouNouvCategorie;
-   private JButton bouVisuCommande, bouNouvScrapie, bouNouvSexing;
+   private JButton bouNouvClient, bouNouvCommande, bouNouvEspece, bouNouvCategorie;//Boutons de la secretaire
+   private JButton bouVisuCommande, bouNouvScrapie, bouNouvSexing;//Boutons du validateur
+   private JButton bouMicroplaques, bouVisuResultats; //Boutons du technicien
    private JLabel labFonctionUser, labNomUser, labPrenomUser;
    private JTextArea textFonctionUser, textNomUser, textPrenomUser;
    private Frame_mother frame;
@@ -38,11 +39,21 @@ public class InterfaceUtilisateur  extends JPanel{
             });
            
            bouNouvEspece = new JButton ("Créer Nouvelle Espece");
+           
            bouNouvCategorie = new JButton ("Créer Nouvelle Catégorie Espece");
+           bouNouvCategorie.addActionListener(new ActionListener(){
+              public void actionPerformed(ActionEvent e){
+                  FormulaireCategories nouvelleCategorie = new FormulaireCategories(frame);
+                  frame.setFrame(nouvelleCategorie);
+              } 
+           });
            
            bouVisuCommande = new JButton ("Visualiser la Commande");
            bouNouvScrapie = new JButton ("Créer Test de Tremblement");
            bouNouvSexing = new JButton ("Créer Test de Sexage");
+           
+           bouMicroplaques = new JButton ("Faire Microplaque");
+           bouVisuResultats = new JButton ("Visualiser Resultats");
            
            //Labels
            labFonctionUser = new JLabel ("Fonction: ");
@@ -92,35 +103,53 @@ public class InterfaceUtilisateur  extends JPanel{
            //Troisieme panel: les actions que peut faire le validateur
            //ce panel sera mis en visible(false) si l'utilisateur est une secrétaire
            //ou un technicien
+           JPanel panelValidateur = new JPanel();
+           panelValidateur.setLayout(new GridLayout(3,1));
+           panelValidateur.add(bouVisuCommande);
+           panelValidateur.add(bouNouvScrapie);
+           panelValidateur.add(bouNouvSexing);
+           
+           //Quatrieme panel: les actions que peut faire le Technicien
+           //ce panel sera mis en visible(false) si l'utilisateur est une secrétaire
+           //ou un technicien
            JPanel panelTechnicien = new JPanel();
            panelTechnicien.setLayout(new GridLayout(3,1));
-           panelTechnicien.add(bouVisuCommande);
-           panelTechnicien.add(bouNouvScrapie);
-           panelTechnicien.add(bouNouvSexing);
+           panelTechnicien.add(bouMicroplaques);
+           panelTechnicien.add(bouVisuResultats);
            
-           panelSecretaire.setVisible(true);
+           //Parametres de visibilité des panels fonction
+           panelSecretaire.setVisible(false);
            panelTechnicien.setVisible(false);
+           panelValidateur.setVisible(false);
            
            
-           String str1 = tf1.getText();
-        char[] p = pass1.getPassword();
-        String str2 = new String(p);
-        try
-        {
+           //Récupération de la fonction de l'utilisateur -- ne fonctionne pas
+            String str1 = tf1.getText();
+            char[] p = pass1.getPassword();
+            String str2 = new String(p);
+            try
+            {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://192.168.24.16/td2","td2","OST");
-            PreparedStatement ps = con.prepareStatement("select jobid from user where login=? and passwd=?");
+            PreparedStatement ps = con.prepareStatement("SELECT jobname FROM job NATURAL JOIN user WHERE login=? and passwd=?");
             ps.setString(1, str1);
             ps.setString(2, str2);
             ResultSet rs = ps.executeQuery();
+            String result = rs.getString("jobname");
             //le jobid de Secretaire est 1
-            if (rs.isFirst()){
+            //login:secretary  mdp: secretary
+            if (result=="Secretary"){
                 panelSecretaire.setVisible(true);
             //le jobid de Technicien est 3
-            }else if (rs.isLast()){
+            //login:technician  mdp:technician
+            }else if (result=="Technician"){
                 panelTechnicien.setVisible(true);
             }
-             //faire un else avec le validateur (son jobid est 2)           
+             //le jobid de Validateur est 2 
+             //login:validator  mdp:validator
+            else if (result=="Validator"){
+                panelValidateur.setVisible(true);
+            }
             }
         catch (Exception ex)
         {
@@ -134,6 +163,7 @@ public class InterfaceUtilisateur  extends JPanel{
            panelGeneral.add(infoUser);
            panelGeneral.add(panelSecretaire);           
            panelGeneral.add(panelTechnicien);
+           panelGeneral.add(panelValidateur);
            
            //this setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
            this.add(panelGeneral);
