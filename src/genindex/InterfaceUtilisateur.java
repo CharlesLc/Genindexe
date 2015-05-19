@@ -15,7 +15,7 @@ public class InterfaceUtilisateur  extends JPanel{
    private JButton bouVisuCommande, bouNouvScrapie, bouNouvSexing;//Boutons du validateur
    private JButton bouMicroplaques, bouVisuResultats; //Boutons du technicien
    private JLabel labFonctionUser, labNomUser, labPrenomUser;
-   private JTextArea textFonctionUser, textNomUser, textPrenomUser;
+   private JTextField textFonctionUser;
    private Frame_mother frame;
    private JPasswordField pass1;
    private JTextField tf1;
@@ -86,23 +86,15 @@ public class InterfaceUtilisateur  extends JPanel{
         pass1 = new JPasswordField();
 
         //TextArea
-        textFonctionUser = new JTextArea(3, 20);
+        textFonctionUser = new JTextField();
         textFonctionUser.setEditable(false);
-        textNomUser = new JTextArea(3, 20);
-        textNomUser.setEditable(false);
-        textPrenomUser = new JTextArea(3, 20);
-        textPrenomUser.setEditable(false);
 
        //Panels
        //Premier panel: il comprend les informations de l'utilisateur
        JPanel infoUser = new JPanel();
-       infoUser.setLayout(new GridLayout(3,2));
+       infoUser.setLayout(new GridLayout(1,2));
        infoUser.add(labFonctionUser);
        infoUser.add(textFonctionUser);
-       infoUser.add(labNomUser);
-       infoUser.add(textNomUser);
-       infoUser.add(labPrenomUser);
-       infoUser.add(textPrenomUser);
 
        //Second panel: les actions que peut faire la secrétaire spécifiquement
        //ce panel sera mis en visible(false) si l'utilisateur est un validateur 
@@ -153,15 +145,18 @@ public class InterfaceUtilisateur  extends JPanel{
             if (result.equals("Secretary")){
                 System.out.println("Secretaire");
                 panelSecretaire.setVisible(true);
+                textFonctionUser.setText("Secretaire");
             //le jobid de Technicien est 3
             //login:technician  mdp:technician
             }else if (result.equals("Technician")){
                 panelTechnicien.setVisible(true);
+                textFonctionUser.setText("Technicien");
             }
              //le jobid de Validateur est 2 
              //login:validator  mdp:validator
             else if (result.equals("Validator")){
                 panelValidateur.setVisible(true);
+                textFonctionUser.setText("Validateur");
             }
             }
     catch (Exception ex)
