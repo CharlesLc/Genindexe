@@ -95,7 +95,7 @@ public class FormulaireEspece extends JPanel implements ActionListener {
                     ResultSet resultatRecherche = recherche.executeQuery();
                     if (resultatRecherche.next()) {
                         // Déjà présent
-                        JOptionPane.showMessageDialog(this, "L'espèce que vous essayez de créer existe déjà dans une catégorie", "Espèce existante", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(this, "L'espèce que vous essayez de créer existe déjà dans une catégorie", "Erreur", JOptionPane.ERROR_MESSAGE);
 
                     } else {
                         PreparedStatement ajout = con.prepareStatement("insert into specie(nameSpecie,nameCat) values(?,?)");
@@ -105,17 +105,17 @@ public class FormulaireEspece extends JPanel implements ActionListener {
                         if (resultatAjout == 1) {
                             // Ajout réussi
                             txtSpecie.setText("");
-                            JOptionPane.showMessageDialog(null, "Ajout réussi");
+                            JOptionPane.showMessageDialog(this, "Ajout réussi","Information", JOptionPane.INFORMATION_MESSAGE);
                         } else {
                             // Ajout non réussi
-                            JOptionPane.showMessageDialog(null, "Ajout non réussi");
+                            JOptionPane.showMessageDialog(this, "Ajout non réussi","Information", JOptionPane.INFORMATION_MESSAGE);
                         }
                     }
                 } catch (Exception ex) {
                     System.out.println(ex);
                 }
             }else {
-                JOptionPane.showMessageDialog(this, "Vous n'avez rien saisi. Veuillez réessayer", "Champ vide", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, "Vous n'avez rien saisi. Veuillez réessayer", "Attention", JOptionPane.WARNING_MESSAGE);
             } 
         } else if (ae.getSource() == buttonAnnuler) {
             InterfaceUtilisateur secretaire = new InterfaceUtilisateur(frame,"","");

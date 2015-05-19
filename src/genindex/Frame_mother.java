@@ -31,6 +31,7 @@ public class Frame_mother
 
         
         f.pack();
+        f.setLocationRelativeTo(null);
         f.setVisible(true);
     }
     
