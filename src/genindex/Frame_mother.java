@@ -24,7 +24,7 @@ public class Frame_mother
         
         h = new Login(this);
         
-        //h = new InterfaceUtilisateur(this);
+        //h = new FormulaireEspece(this);
         
         f.add(h);
         //f.add(h);
