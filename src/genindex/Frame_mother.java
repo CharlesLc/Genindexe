@@ -34,7 +34,7 @@ public class Frame_mother
         f.setVisible(true);
     }
     
-    public void setFrame (JPanel newPan, JPanel ancienPan)
+    public void setFrame (JPanel newPan)
     {
 
         f.remove(h);

@@ -17,10 +17,8 @@ public class FormulaireEspece
     private JButton buttonEnvoyer;
     private JButton buttonAnnuler; 
     private Frame_mother frame;
-    private JPanel actualPanel; //Correspond au panel actuel qui sera remove quand on appuie sur un bouton qui envoie ailleurs
     
     public FormulaireEspece (Frame_mother interfaceUti) {
-        actualPanel=this;
         frame = interfaceUti;
         
         // NOM D'ESPECE
@@ -72,7 +70,7 @@ public class FormulaireEspece
         else if (ae.getSource()== buttonAnnuler)
             {
                 InterfaceUtilisateur secretaire = new InterfaceUtilisateur(frame);
-                frame.setFrame(secretaire,actualPanel);
+                frame.setFrame(secretaire);
             }
     }
 }

@@ -77,7 +77,7 @@ public class Login
             if (rs.next())
             {
                 IntUti=new InterfaceUtilisateur(frame);
-                frame.setFrame(IntUti,this);
+                frame.setFrame(IntUti);
             } else
             {
                 JOptionPane.showMessageDialog(null,

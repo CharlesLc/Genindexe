@@ -24,7 +24,6 @@ public class FormulaireClient extends JPanel implements ActionListener{
     private JButton buttonEnvoyer;
     private JButton buttonAnnuler; 
     private Frame_mother frame;
-    private JPanel actualPanel; //Correspond au panel actuel qui sera remove quand on appuie sur un bouton qui envoie ailleurs
     
     private JLabel titre;
     //private JPanel panelClient; 
@@ -33,7 +32,6 @@ public class FormulaireClient extends JPanel implements ActionListener{
     
     public FormulaireClient (Frame_mother interfaceUti) {
         
-        actualPanel=this;
         // Titre page
         titre = new JLabel("Ajout d'un client");
         titre.setFont(new Font("Serif", Font.BOLD, 20));
@@ -62,7 +60,7 @@ public class FormulaireClient extends JPanel implements ActionListener{
         buttonAnnuler.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 InterfaceUtilisateur secretaire = new InterfaceUtilisateur(frame);
-                frame.setFrame(secretaire,actualPanel);
+                frame.setFrame(secretaire);
             }
         });
                 

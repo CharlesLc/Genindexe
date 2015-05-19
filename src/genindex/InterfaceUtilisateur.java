@@ -18,25 +18,23 @@ public class InterfaceUtilisateur  extends JPanel{
    private Frame_mother frame;
    private JPasswordField pass1;
    private JTextField tf1;
-   private JPanel actualPanel; //Correspond au panel actuel qui sera remove quand on appuie sur un bouton qui envoie ailleurs
-   
+  
    public InterfaceUtilisateur (Frame_mother formulaireClient)
    {
-           actualPanel=this;
            frame = formulaireClient;
            //Boutons
            bouNouvClient = new JButton ("Créer Nouveau Client");
            bouNouvClient.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 FormulaireClient nouveauClient = new FormulaireClient(frame);
-                frame.setFrame(nouveauClient,actualPanel);}
+                frame.setFrame(nouveauClient);}
             });
            
            bouNouvCommande = new JButton ("Créer Nouvelle Commande");
            bouNouvCommande.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 FormulaireCommande nouvelleCommande = new FormulaireCommande(frame);
-                frame.setFrame(nouvelleCommande,actualPanel);}
+                frame.setFrame(nouvelleCommande);}
             });
            
            bouNouvEspece = new JButton ("Créer Nouvelle Espece");

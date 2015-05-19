@@ -64,7 +64,7 @@ public class rechercheCommande extends JPanel implements ActionListener{
         bouttonAnnuler.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 InterfaceUtilisateur validateur = new InterfaceUtilisateur(frame);
-                frame.setFrame(validateur,validateur);
+                frame.setFrame(validateur);
             }
         });
         
