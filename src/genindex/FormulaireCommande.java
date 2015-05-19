@@ -10,12 +10,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -39,6 +41,8 @@ public class FormulaireCommande extends JPanel implements ActionListener{
     private final JButton Envoyer;
     private final JButton Annuler; 
     private final Frame_mother frame; 
+    
+    private String cat, esp, ana, SelectClient;
   
     public FormulaireCommande (Frame_mother interfaceUti) {
     
@@ -135,6 +139,51 @@ public class FormulaireCommande extends JPanel implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        
+        SelectClient = ListClient.getSelectedItem().toString(); // recupère le client sectionner dans la liste déroulante
+        cat = TextCategorie.getText();
+        esp = TextEspece.getText();
+        ana = TextAnalyse.getText();
+        
+        try
+        {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://192.168.24.16/td2","td2","OST");
+            PreparedStatement recherche = con.prepareStatement("Faire des jointures where categorie=? and specie=? and analyse=?");
+            recherche.setString(1, cat);
+            recherche.setString(2, esp);
+            recherche.setString(2, ana);
+            ResultSet resultatRecherche = recherche.executeQuery();
+            if (resultatRecherche.next())
+            {
+                // Déjà présent
+                JOptionPane.showMessageDialog(null,"La commande existe déjà");
+            }
+//            else
+//            {
+//                PreparedStatement ajout = con.prepareStatement("insert into customer(name,town) values(?,?)");
+//                ajout.setString(1, nom);
+//                ajout.setString(2, ville);
+//                int resultatAjout = ajout.executeUpdate();
+//                if (resultatAjout == 1)
+//                {
+//                    // Ajout réussi
+//                    textVille.setText("");
+//                    textNom.setText("");
+//                    JOptionPane.showMessageDialog(null,"Ajout réussi");
+//                }
+//                else 
+//                {
+//                    // Ajout non réussi
+//                    JOptionPane.showMessageDialog(null,"Ajout non réussi");
+//                } 
+//            }
+            
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex);
+        }
+        
     }
 }
