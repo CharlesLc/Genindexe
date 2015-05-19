@@ -125,7 +125,7 @@ public class InterfaceUtilisateur  extends JPanel{
        //Parametres de visibilité des panels fonction
        panelSecretaire.setVisible(false);
        panelTechnicien.setVisible(false);
-       panelValidateur.setVisible(true);
+       panelValidateur.setVisible(false);
 
 
        //Récupération de la fonction de l'utilisateur -- ne fonctionne pas
