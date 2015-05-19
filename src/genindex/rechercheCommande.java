@@ -29,6 +29,9 @@ public class rechercheCommande extends JPanel implements ActionListener{
     private String resultSelected;
     private String monId;
     private String monNom;
+    private int nbAnalyseFinie;
+    private int nbAnalyses;
+    private int pourcentage;
 
     public rechercheCommande(Frame_mother interfaceUti)
     {
@@ -81,6 +84,7 @@ public class rechercheCommande extends JPanel implements ActionListener{
     
     public void actionPerformed(ActionEvent ae)
     {
+        InformationClient.setText("");
         resultSelected = listClient.getSelectedItem().toString();
         String[] tabSplitResult = resultSelected.split(" ");
         monId = tabSplitResult[0]; 
@@ -98,6 +102,29 @@ public class rechercheCommande extends JPanel implements ActionListener{
                 while ( resultatRecherche.next()) {
                     InformationClient.append("Client : " + monNom + "\t ID Commande : " + resultatRecherche.getString("orderID") + "\t Statut : " + resultatRecherche.getString("status") + "\n");
                 }
+                
+                PreparedStatement analyseOk = con.prepareStatement("select * from orders natural join customer where customerID=? and status='completed'");
+                analyseOk.setString(1, monId);
+                PreparedStatement analyses = con.prepareStatement("select * from orders natural join customer where customerID=?");
+                analyses.setString(1, monId);
+                ResultSet analyseFinie = analyseOk.executeQuery();
+                if (analyseFinie.last()) 
+                {
+                    nbAnalyseFinie = analyseFinie.getRow();
+                }
+                ResultSet analyseTout = analyses.executeQuery();
+                if (analyseTout.last()) 
+                {
+                    nbAnalyses = analyseTout.getRow();
+                }
+                
+                InformationClient.append("Nb analyses terminées : " + nbAnalyseFinie + "\n");
+                pourcentage = nbAnalyseFinie*100/nbAnalyses;
+                InformationClient.append("Nb analyses : " + nbAnalyses + "\t\t\t " + pourcentage + "% terminé \n");
+
+
+
+                
             } else
             {
                InformationClient.setText("Client : " + monNom + "\t *Pas de commande*");
