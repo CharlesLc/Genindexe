@@ -22,9 +22,11 @@ public class rechercheCommande extends JPanel implements ActionListener{
     private JButton bouttonAnnuler;
     private JLabel titre;
     private Frame_mother frame;
+    private JPanel actualPanel; //Correspond au panel actuel qui sera remove quand on appuie sur un bouton qui envoie ailleurs
     
     public rechercheCommande(Frame_mother interfaceUti)
     {
+        actualPanel=this;
         frame = interfaceUti;
         
         // Titre page
@@ -44,7 +46,7 @@ public class rechercheCommande extends JPanel implements ActionListener{
         bouttonAnnuler.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 InterfaceUtilisateur validateur = new InterfaceUtilisateur(frame);
-                frame.setFrame(validateur);
+                frame.setFrame(validateur,actualPanel);
             }
         });
        

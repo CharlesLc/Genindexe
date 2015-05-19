@@ -36,9 +36,11 @@ public class FormulaireCommande extends JPanel implements ActionListener{
     private final JButton Envoyer;
     private final JButton Annuler; 
     private final Frame_mother frame; 
+    private JPanel actualPanel; //Correspond au panel actuel qui sera remove quand on appuie sur un bouton qui envoie ailleurs
     
     public FormulaireCommande (Frame_mother interfaceUti) {
     
+    actualPanel=this;
     frame = interfaceUti;
     JPanel p1 = new JPanel();
     p1.setLayout(new BoxLayout(p1, BoxLayout.LINE_AXIS));
@@ -90,7 +92,7 @@ public class FormulaireCommande extends JPanel implements ActionListener{
     Annuler.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
         InterfaceUtilisateur secretaire = new InterfaceUtilisateur(frame);
-        frame.setFrame(secretaire);
+        frame.setFrame(secretaire,actualPanel);
         }
     });
    

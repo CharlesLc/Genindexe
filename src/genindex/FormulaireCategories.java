@@ -23,9 +23,11 @@ public class FormulaireCategories extends JPanel implements ActionListener{
     private JButton bouttonAnnuler;
     private Frame_mother frame;
     private String nomCategorie;
+    private JPanel actualPanel; //Correspond au panel actuel qui sera remove quand on appuie sur un bouton qui envoie ailleurs
     
     public FormulaireCategories(Frame_mother interfaceUti)
     {
+        actualPanel=this;
         frame = interfaceUti;
         
         // Titre page
@@ -45,7 +47,7 @@ public class FormulaireCategories extends JPanel implements ActionListener{
         bouttonAnnuler.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 InterfaceUtilisateur secretaire = new InterfaceUtilisateur(frame);
-                frame.setFrame(secretaire);
+                frame.setFrame(secretaire,actualPanel);
             }
         });
         
