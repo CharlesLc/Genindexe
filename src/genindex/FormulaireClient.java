@@ -24,8 +24,8 @@ public class FormulaireClient extends JPanel implements ActionListener{
     private JButton buttonEnvoyer;
     private JButton buttonAnnuler; 
     private Frame_mother frame;
-    
     private JLabel titre;
+    private JPanel p1;
     //private JPanel panelClient; 
     
     private String nom, ville;
@@ -65,13 +65,17 @@ public class FormulaireClient extends JPanel implements ActionListener{
         });
                 
         //panelClient = new JPanel();
-        this.setLayout(new GridLayout(3,2));
-        this.add(labelNom);
-        this.add(textNom);
-        this.add(labelVille);
-        this.add(textVille);
-        this.add(buttonEnvoyer);
-        this.add(buttonAnnuler);
+        this.setLayout(new GridLayout(2,2));
+        this.add(titre);
+        p1 = new JPanel();
+        p1.setLayout(new GridLayout(3,2));
+        p1.add(labelNom);
+        p1.add(textNom);
+        p1.add(labelVille);
+        p1.add(textVille);
+        p1.add(buttonEnvoyer);
+        p1.add(buttonAnnuler);
+        this.add(p1);
         
     }
     

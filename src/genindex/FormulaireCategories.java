@@ -23,6 +23,7 @@ public class FormulaireCategories extends JPanel implements ActionListener{
     private JButton bouttonAnnuler;
     private Frame_mother frame;
     private String nomCategorie;
+    private JPanel p1;
     
     public FormulaireCategories(Frame_mother interfaceUti)
     {
@@ -33,7 +34,7 @@ public class FormulaireCategories extends JPanel implements ActionListener{
         titre.setFont(new Font("Serif", Font.BOLD, 20));
         
         // Recherche client
-        labelAjoutCategorie = new JLabel("Saisir une espèce ");
+        labelAjoutCategorie = new JLabel("Saisir une catégorie ");
         textAjoutCategorie = new JTextField(20);
 
          // Rechercher
@@ -49,11 +50,16 @@ public class FormulaireCategories extends JPanel implements ActionListener{
             }
         });
         
-        this.setLayout(new GridLayout(3,2));
-        this.add(labelAjoutCategorie);
-        this.add(textAjoutCategorie);
-        this.add(bouttonAjouter);
-        this.add(bouttonAnnuler);
+        this.setLayout(new GridLayout(2,2));
+        this.add(titre);
+        p1 = new JPanel();
+        p1.setLayout(new GridLayout(2,2));
+        p1.add(labelAjoutCategorie);
+        p1.add(textAjoutCategorie);
+        p1.add(bouttonAjouter);
+        p1.add(bouttonAnnuler);
+        
+        this.add(p1);
     }
     
     public void actionPerformed(ActionEvent ae)
