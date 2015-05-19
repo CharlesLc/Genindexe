@@ -66,42 +66,44 @@ public class FormulaireCategories extends JPanel implements ActionListener{
     {
         nomCategorie = textAjoutCategorie.getText();
         
-        
-        try
-        {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://192.168.24.16/td2","td2","OST");
-            PreparedStatement recherche = con.prepareStatement("select name from specieCategory where name=?");
-            recherche.setString(1, nomCategorie);
-            ResultSet resultatRecherche = recherche.executeQuery();
-            if (resultatRecherche.next())
+        if (nomCategorie.equals("")== false) {
+            try
             {
-                // Déjà présent
-                JOptionPane.showMessageDialog(null,"Cette catégorie existe déjà");
-               
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection("jdbc:mysql://192.168.24.16/td2","td2","OST");
+                PreparedStatement recherche = con.prepareStatement("select name from specieCategory where name=?");
+                recherche.setString(1, nomCategorie);
+                ResultSet resultatRecherche = recherche.executeQuery();
+                if (resultatRecherche.next())
+                {
+                    // Déjà présent
+                    JOptionPane.showMessageDialog(null,"Cette catégorie existe déjà");
 
-            } else
-            {
-                PreparedStatement ajout = con.prepareStatement("insert into specieCategory(name) values(?)");
-                ajout.setString(1, nomCategorie);
-                int resultatAjout = ajout.executeUpdate();
-                if (resultatAjout == 1)
+
+                } else
                 {
-                    // Ajout réussi
-                    textAjoutCategorie.setText("");
-                    JOptionPane.showMessageDialog(null,"Ajout réussi");
+                    PreparedStatement ajout = con.prepareStatement("insert into specieCategory(name) values(?)");
+                    ajout.setString(1, nomCategorie);
+                    int resultatAjout = ajout.executeUpdate();
+                    if (resultatAjout == 1)
+                    {
+                        // Ajout réussi
+                        textAjoutCategorie.setText("");
+                        JOptionPane.showMessageDialog(null,"Ajout réussi");
+                    }
+                    else 
+                    {
+                        // Ajout non réussi
+                        JOptionPane.showMessageDialog(null,"Ajout non réussi");
+                    } 
                 }
-                else 
-                {
-                    // Ajout non réussi
-                    JOptionPane.showMessageDialog(null,"Ajout non réussi");
-                } 
             }
+            catch (Exception ex)
+            {
+                System.out.println(ex);
+            }
+        }else {
+            JOptionPane.showMessageDialog(this, "Vous n'avez rien saisi. Veuillez réessayer", "Champ vide", JOptionPane.ERROR_MESSAGE);
         }
-        catch (Exception ex)
-        {
-            System.out.println(ex);
-        }
-    
     }       
 }

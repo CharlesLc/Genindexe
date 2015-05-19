@@ -94,46 +94,48 @@ public class FormulaireClient extends JPanel implements ActionListener{
         nom = textNom.getText();
         ville = textVille.getText();
         
-        
-        try
-        {
-            Class.forName("com.mysql.jdbc.Driver");
-            Connection con = DriverManager.getConnection("jdbc:mysql://192.168.24.16/td2","td2","OST");
-            PreparedStatement recherche = con.prepareStatement("select name from customer where name=? and town=?");
-            recherche.setString(1, nom);
-            recherche.setString(2, ville);
-            ResultSet resultatRecherche = recherche.executeQuery();
-            if (resultatRecherche.next())
+        if (nom.equals("")== false && ville.equals("")== false  ) {
+            try
             {
-                // Déjà présent
-                JOptionPane.showMessageDialog(null,"Le client existe déjà");
-               
+                Class.forName("com.mysql.jdbc.Driver");
+                Connection con = DriverManager.getConnection("jdbc:mysql://192.168.24.16/td2","td2","OST");
+                PreparedStatement recherche = con.prepareStatement("select name from customer where name=? and town=?");
+                recherche.setString(1, nom);
+                recherche.setString(2, ville);
+                ResultSet resultatRecherche = recherche.executeQuery();
+                if (resultatRecherche.next())
+                {
+                    // Déjà présent
+                    JOptionPane.showMessageDialog(null,"Le client existe déjà");
 
-            } else
-            {
-                PreparedStatement ajout = con.prepareStatement("insert into customer(name,town) values(?,?)");
-                ajout.setString(1, nom);
-                ajout.setString(2, ville);
-                int resultatAjout = ajout.executeUpdate();
-                if (resultatAjout == 1)
+
+                } else
                 {
-                    // Ajout réussi
-                    textVille.setText("");
-                    textNom.setText("");
-                    JOptionPane.showMessageDialog(null,"Ajout réussi");
+                    PreparedStatement ajout = con.prepareStatement("insert into customer(name,town) values(?,?)");
+                    ajout.setString(1, nom);
+                    ajout.setString(2, ville);
+                    int resultatAjout = ajout.executeUpdate();
+                    if (resultatAjout == 1)
+                    {
+                        // Ajout réussi
+                        textVille.setText("");
+                        textNom.setText("");
+                        JOptionPane.showMessageDialog(null,"Ajout réussi");
+                    }
+                    else 
+                    {
+                        // Ajout non réussi
+                        JOptionPane.showMessageDialog(null,"Ajout non réussi");
+                    } 
                 }
-                else 
-                {
-                    // Ajout non réussi
-                    JOptionPane.showMessageDialog(null,"Ajout non réussi");
-                } 
             }
+            catch (Exception ex)
+            {
+                System.out.println(ex);
+            }
+        }else {
+            JOptionPane.showMessageDialog(this, "Vous n'avez pas tout saisi. Veuillez réessayer", "Champ vide", JOptionPane.ERROR_MESSAGE);
         }
-        catch (Exception ex)
-        {
-            System.out.println(ex);
-        }
-    
     }   
         
 }

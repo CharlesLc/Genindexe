@@ -129,7 +129,7 @@ public class InterfaceUtilisateur  extends JPanel{
        panelTechnicien.add(bouVisuResultats);
 
        //Parametres de visibilité des panels fonction
-       panelSecretaire.setVisible(true);
+       panelSecretaire.setVisible(false);
        panelTechnicien.setVisible(false);
        panelValidateur.setVisible(false);
 
