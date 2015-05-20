@@ -35,8 +35,9 @@ public class Frame_mother
         f.setVisible(true);
     }
     
-    public void setFrameLogin (JPanel newPan) //JPanel ancienPan)
+    public void setFrameLogin (JPanel newPan,Login logout) //JPanel ancienPan)
     {
+            l = logout;
             f.remove(l);
             h=newPan;
             f.add(newPan);
