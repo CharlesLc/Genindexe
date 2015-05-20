@@ -73,6 +73,12 @@ public class InterfaceUtilisateur  extends JPanel{
         });
         
         bouNouvSexing = new JButton ("Créer Test de Sexage");
+        bouNouvSexing.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            SexingTest testSexing = new SexingTest(frame);
+            frame.setFrame(testSexing);}
+        });
+        
         bouSecondRead = new JButton ("Effectuer Seconde Lecture");
 
         bouMicroplaques = new JButton ("Faire Microplaque");

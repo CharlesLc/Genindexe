@@ -190,7 +190,7 @@ public class ScrapieTest extends JPanel implements ActionListener{
             } 
             else
             {    
-                    JOptionPane.showMessageDialog(null,"Pas reussi à ajouté la Raw Data");
+                    JOptionPane.showMessageDialog(null,"Pas reussi à ajouter la Raw Data");
             }
         }
         catch (Exception ex)
