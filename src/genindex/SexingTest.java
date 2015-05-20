@@ -32,6 +32,7 @@ public class SexingTest extends JPanel implements ActionListener {
         // Formulaire
         labNomTest = new JLabel("Nom du test");
         textNomTest = new JTextField(20);
+        textNomTest.setText("Sexing Test");
         
         labPositionMale = new JLabel("Position");
         textPositionMale = new JTextField(20);
@@ -134,56 +135,59 @@ public class SexingTest extends JPanel implements ActionListener {
         resultSelected = choixEspece.getSelectedItem().toString();
         String[] tabSplitResult = resultSelected.split(" ");
         monId = tabSplitResult[0]; 
-        monNom = tabSplitResult[1];
+        monNom = textNomTest.getText();
         id=Integer.parseInt(monId);
         posMale=Integer.parseInt(textPositionMale.getText());
         posFemelle=Integer.parseInt(textPositionFemelle.getText());
         valMale=Integer.parseInt(textValeurMale.getText());
         valFemelle=Integer.parseInt(textValeurFemelle.getText());
         
+        String IDmale = "";
+        String IDfemale = "";
 
         try
         {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://192.168.24.16/td2","td2","OST");
-            PreparedStatement insertionRaw = con.prepareStatement("insert into rawData (position,value) values (?,?)");
+            PreparedStatement insertionRaw = con.prepareStatement("insert into rawData (position,value) values (?,?)", Statement.RETURN_GENERATED_KEYS);
             insertionRaw.setInt(1, posMale);
             insertionRaw.setInt(2,valMale);
-            insertionRaw.setInt(3, posFemelle);
-            insertionRaw.setInt(4,valFemelle);
-
-            int resultatRecherche = insertionRaw.executeUpdate();
-            if (resultatRecherche==1)
+            int resultatRecherche1 = insertionRaw.executeUpdate();
+            // Recupère l'identifiant de la commande que l'on vient d'ajouter dans la base de donnée
+            ResultSet resIDmale = insertionRaw.getGeneratedKeys();
+            while (resIDmale.next()) {
+                IDmale = resIDmale.getString(1);
+            }
+            
+            
+            PreparedStatement insertionRaw2 = con.prepareStatement("insert into rawData (position,value) values (?,?)", Statement.RETURN_GENERATED_KEYS);
+            insertionRaw2.setInt(1, posFemelle);
+            insertionRaw2.setInt(2, valFemelle);
+            int resultatRecherche2 = insertionRaw2.executeUpdate();
+            // Recupère l'identifiant de la commande que l'on vient d'ajouter dans la base de donnée
+            ResultSet resIDfemale = insertionRaw2.getGeneratedKeys();
+            while (resIDfemale.next()) {
+                IDfemale = resIDfemale.getString(1);
+            }
+            
+            if (resultatRecherche1==1 && resultatRecherche2==1)
             {
-                System.out.println("If Select Raw");
-                PreparedStatement rechercheId = con.prepareStatement("select rawDataID from rawData where position=? and value=?");
-                rechercheId.setInt(1,posMale);
-                rechercheId.setInt(2,valMale);
-                rechercheId.setInt(3,posFemelle);
-                rechercheId.setInt(4,valFemelle);
-                ResultSet resultatrechRaw=rechercheId.executeQuery();
-                if(resultatrechRaw.next())
+                
+                System.out.println("If Insert Sexing");
+                PreparedStatement insertionSexing = con.prepareStatement("insert into sexingTest (nameT,specieID,maleRawID,femaleRawID) values (?,?,?,?)");
+                insertionSexing.setString(1,monNom);
+                insertionSexing.setInt(2,id);
+                insertionSexing.setString(3,IDmale);
+                insertionSexing.setString(4,IDfemale);
+                int resultatInsertSexing=insertionSexing.executeUpdate();
+                if (resultatInsertSexing==1)
                 {
-                    System.out.println("If Insert Sexing");
-                    PreparedStatement insertionSexing = con.prepareStatement("insert into sexingTest (nameT,specieID,maleRawID,femaleRawID) values (?,?,?,?)");
-                    insertionSexing.setString(1,monNom);
-                    insertionSexing.setInt(2,id);
-                    insertionSexing.setInt(3,resultatrechRaw.getInt("rawDataID"));
-                    insertionSexing.setInt(4,resultatrechRaw.getInt("rawDataID"));
-                    int resultatInsertSexing=insertionSexing.executeUpdate();
-                    if (resultatInsertSexing==1)
-                    {
-                       JOptionPane.showMessageDialog(null,"Bien ajouté"); 
-                    }
-                    else
-                    {
-                        JOptionPane.showMessageDialog(null,"Pas reussi à ajouter le Sexing Test");
-                    }   
+                   JOptionPane.showMessageDialog(null,"Bien ajouté"); 
                 }
                 else
                 {
-                    JOptionPane.showMessageDialog(null,"Pas reussi à trouver la Raw Data correspondante");
-                }
+                    JOptionPane.showMessageDialog(null,"Pas reussi à ajouter le Sexing Test");
+                }   
             } 
             else
             {    

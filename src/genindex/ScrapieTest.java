@@ -62,6 +62,7 @@ public class ScrapieTest extends JPanel implements ActionListener{
         // Formulaire
         nomTest = new JLabel("Nom du test");
         textNomTest = new JTextField(20);
+        textNomTest.setText("Scrapie Test");
         
         // Faire une liste déroulante      
         nomEspece = new JLabel("Choix de l'espèce");
@@ -150,47 +151,42 @@ public class ScrapieTest extends JPanel implements ActionListener{
         resultSelected = listeEspece.getSelectedItem().toString();
         String[] tabSplitResult = resultSelected.split(" ");
         monId = tabSplitResult[0]; 
-        monNom = tabSplitResult[1];
+        monNom = textNomTest.getText();
         id=Integer.parseInt(monId);
         pos=Integer.parseInt(textPosition.getText());
         val=Integer.parseInt(textValeur.getText());
+        
+        String IDrawData = "";
         
 
         try
         {
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://192.168.24.16/td2","td2","OST");
-            PreparedStatement insertionRaw = con.prepareStatement("insert into rawData (position,value) values (?,?)");
+            PreparedStatement insertionRaw = con.prepareStatement("insert into rawData (position,value) values (?,?)", Statement.RETURN_GENERATED_KEYS);
             insertionRaw.setInt(1, pos);
             insertionRaw.setInt(2,val);
             int resultatRecherche = insertionRaw.executeUpdate();
             if (resultatRecherche==1)
             {
-                System.out.println("If Select Raw");
-                PreparedStatement rechercheId = con.prepareStatement("select rawDataID from rawData where position=? and value=?");
-                rechercheId.setInt(1,pos);
-                rechercheId.setInt(2,val);
-                ResultSet resultatrechRaw=rechercheId.executeQuery();
-                if(resultatrechRaw.next())
+                System.out.println("If Select Raw");   
+                // Recupère l'identifiant de la commande que l'on vient d'ajouter dans la base de donnée
+                ResultSet resIDrawData = insertionRaw.getGeneratedKeys();
+                while (resIDrawData.next()) {
+                    IDrawData = resIDrawData.getString(1);
+                }
+                PreparedStatement insertionScrapie = con.prepareStatement("insert into scrapieTest (nameT,specieID,scrapieRawID) values (?,?,?)");
+                insertionScrapie.setString(1,monNom);
+                insertionScrapie.setInt(2,id);
+                insertionScrapie.setString(3,IDrawData);
+                int resultatInsertScrapie=insertionScrapie.executeUpdate();
+                if (resultatInsertScrapie==1)
                 {
-                    System.out.println("If Insert Scrapie");
-                    PreparedStatement insertionScrapie = con.prepareStatement("insert into scrapieTest (nameT,specieID,scrapieRawID) values (?,?,?)");
-                    insertionScrapie.setString(1,monNom);
-                    insertionScrapie.setInt(2,id);
-                    insertionScrapie.setInt(3,resultatrechRaw.getInt("rawDataID"));
-                    int resultatInsertScrapie=insertionScrapie.executeUpdate();
-                    if (resultatInsertScrapie==1)
-                    {
-                       JOptionPane.showMessageDialog(null,"Bien ajouté"); 
-                    }
-                    else
-                    {
-                        JOptionPane.showMessageDialog(null,"Pas reussi à ajouter le Scrapie Test");
-                    }   
+                   JOptionPane.showMessageDialog(null,"Bien ajouté"); 
                 }
                 else
                 {
-                    JOptionPane.showMessageDialog(null,"Pas reussi à trouver la Raw Data correspondante");
+                    JOptionPane.showMessageDialog(null,"Pas reussi à ajouter le Scrapie Test");
                 }
             } 
             else
