@@ -19,12 +19,13 @@ import javax.swing.*;
 public class rechercheCommande extends JPanel implements ActionListener{
         
     private JComboBox listClient;
-//    private JTextField textRechercheNom;
     private JLabel labelRechercheNom;
     private JButton bouttonRechercher;
     private JButton bouttonAnnuler;
-    private JLabel titre;
+    private JTextField titre;
     private JTextArea InformationClient;
+    private JScrollPane ScrollInformationClient;
+    private JPanel panRecherche;
     private Frame_mother frame;
     private String resultSelected;
     private String monId;
@@ -38,8 +39,9 @@ public class rechercheCommande extends JPanel implements ActionListener{
         frame = interfaceUti;
         
         // Titre page
-        titre = new JLabel("Recherche de commandes d'un client");
-        titre.setFont(new Font("Serif", Font.BOLD, 20));
+        titre = new JTextField("Visualisation des listes");
+        titre.setEditable(false);
+        titre.setFont(new Font("Serif", Font.BOLD, 20)); 
        
         // Recherche client
         labelRechercheNom = new JLabel("Saisir le nom du client");
@@ -73,12 +75,18 @@ public class rechercheCommande extends JPanel implements ActionListener{
         
         InformationClient = new JTextArea();
         InformationClient.setEditable(false);
-        this.setLayout(new GridLayout(5,1));
-        this.add(titre);
-        this.add(listClient);
-        this.add(bouttonRechercher);
-        this.add(bouttonAnnuler);
-        this.add(InformationClient);
+        ScrollInformationClient = new JScrollPane(InformationClient);
+        
+        panRecherche = new JPanel();
+        panRecherche.setLayout(new GridLayout(4,1));
+        panRecherche.add(titre);
+        panRecherche.add(listClient);
+        panRecherche.add(bouttonRechercher);
+        panRecherche.add(bouttonAnnuler);
+        
+        this.setLayout(new GridLayout(2,1));
+        this.add(panRecherche);
+        this.add(ScrollInformationClient);
 
     }
     
@@ -120,7 +128,7 @@ public class rechercheCommande extends JPanel implements ActionListener{
                 
                 InformationClient.append("Nb analyses terminées : " + nbAnalyseFinie + "\n");
                 pourcentage = nbAnalyseFinie*100/nbAnalyses;
-                InformationClient.append("Nb analyses : " + nbAnalyses + "\t\t\t " + pourcentage + "% terminé \n");
+                InformationClient.append("Nb analyses : " + nbAnalyses + "\t\t " + pourcentage + "% terminé \n");
 
 
 

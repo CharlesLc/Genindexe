@@ -16,7 +16,7 @@ import javax.swing.*;
  */
 public class FormulaireCategories extends JPanel implements ActionListener{
     
-    private JLabel titre;
+    private JTextField titre;
     private JTextField textAjoutCategorie;
     private JLabel labelAjoutCategorie;
     private JButton bouttonAjouter;
@@ -30,8 +30,10 @@ public class FormulaireCategories extends JPanel implements ActionListener{
         frame = interfaceUti;
         
         // Titre page
-        titre = new JLabel("Ajout d'une catégorie");
-        titre.setFont(new Font("Serif", Font.BOLD, 20));
+  
+        titre = new JTextField("Création d'une catégorie d'espèce");
+        titre.setEditable(false);
+        titre.setFont(new Font("Serif", Font.BOLD, 20)); 
         
         // Recherche client
         labelAjoutCategorie = new JLabel("Saisir une catégorie ");

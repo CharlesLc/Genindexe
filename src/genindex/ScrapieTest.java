@@ -17,8 +17,8 @@ import javax.swing.*;
  */
 public class ScrapieTest extends JPanel implements ActionListener{
    
-    private JLabel titre;
-    private JLabel nomTest;
+    private JTextField titre;
+    private JLabel nomTest,titre2;
     private JTextField textNomTest;
     private JLabel nomEspece;
     private JTextField textNomEspece;
@@ -53,8 +53,11 @@ public class ScrapieTest extends JPanel implements ActionListener{
         ResultSet resultatRecherche = null;
         
         // Titre page 
-        titre = new JLabel("Création d'un Scrapie Test");
+        titre = new JTextField("Création d'un Scrapie Test");
+        titre.setEditable(false);
         titre.setFont(new Font("Serif", Font.BOLD, 20));
+        titre2 = new JLabel("");
+
         
         // Formulaire
         nomTest = new JLabel("Nom du test");
@@ -120,7 +123,9 @@ public class ScrapieTest extends JPanel implements ActionListener{
         
         // Ajout des éléments au panel
         p = new JPanel();
-        p.setLayout(new GridLayout(5,2));
+        p.setLayout(new GridLayout(6,2));
+        p.add(titre);
+        p.add(titre2);
         p.add(nomTest);
         p.add(textNomTest);
         p.add(nomEspece);
@@ -131,8 +136,8 @@ public class ScrapieTest extends JPanel implements ActionListener{
         p.add(textValeur);
         p.add(bouttonEnvoyer);
         p.add(bouttonAnnuler);
-        this.setLayout(new GridLayout(2,1));
-        this.add(titre);
+        this.setLayout(new GridLayout(1,1));
+        
         this.add(p);
         
         
@@ -190,7 +195,7 @@ public class ScrapieTest extends JPanel implements ActionListener{
             } 
             else
             {    
-                    JOptionPane.showMessageDialog(null,"Pas reussi à ajouté la Raw Data");
+                    JOptionPane.showMessageDialog(null,"Pas reussi à ajouter la Raw Data");
             }
         }
         catch (Exception ex)

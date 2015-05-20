@@ -24,7 +24,7 @@ public class FormulaireClient extends JPanel implements ActionListener{
     private JButton buttonEnvoyer;
     private JButton buttonAnnuler; 
     private Frame_mother frame;
-    private JLabel titre;
+    private JTextField titre;
     private JPanel p1;
     //private JPanel panelClient; 
     
@@ -33,7 +33,8 @@ public class FormulaireClient extends JPanel implements ActionListener{
     public FormulaireClient (Frame_mother interfaceUti) {
         
         // Titre page
-        titre = new JLabel("Ajout d'un client");
+        titre = new JTextField("Création d'une client");
+        titre.setEditable(false);
         titre.setFont(new Font("Serif", Font.BOLD, 20));
         
         frame = interfaceUti;

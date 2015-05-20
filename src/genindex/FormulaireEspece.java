@@ -11,7 +11,8 @@ import java.sql.*;
  */
 public class FormulaireEspece extends JPanel implements ActionListener {
     private JTextField txtSpecie;
-    private JLabel labelSpecie,title, labelChoixCat;
+    private JTextField titre;
+    private JLabel labelSpecie, labelChoixCat;
     private JButton buttonEnvoyer;
     private JButton buttonAnnuler; 
     private Frame_mother frame;
@@ -24,9 +25,10 @@ public class FormulaireEspece extends JPanel implements ActionListener {
         frame = interfaceUti;
         
         // Titre page
-        title = new JLabel("Ajout d'une espèce");
-        title.setFont(new Font("Serif", Font.BOLD, 20));
-        
+        titre = new JTextField("Création d'une espèce");
+        titre.setEditable(false);
+        titre.setFont(new Font("Serif", Font.BOLD, 20)); 
+       
         // Nom d'espèce
         labelSpecie = new JLabel("Nom d'espèce : "); 
         labelSpecie.setHorizontalAlignment(JLabel.CENTER);
@@ -59,7 +61,7 @@ public class FormulaireEspece extends JPanel implements ActionListener {
         
         // Construction du Panel
         p1 = new JPanel();
-        p1.add(title);
+        p1.add(titre);
         p2 = new JPanel();
         p2.setLayout(new GridLayout(3,2));
         p2.add(labelSpecie);
