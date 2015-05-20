@@ -11,7 +11,7 @@ import java.sql.*;
  * @author Maëva
  */
 public class InterfaceUtilisateur  extends JPanel{
-   private JButton bouNouvClient, bouNouvCommande, bouNouvEspece, bouNouvCategorie;//Boutons de la secretaire
+   private JButton bouNouvClient, bouNouvCommande, bouNouvEspece, bouNouvCategorie,bouVoirListes;//Boutons de la secretaire
    private JButton bouVisuCommande, bouNouvScrapie, bouNouvSexing, bouSecondRead;//Boutons du validateur
    private JButton bouMicroplaques, bouVisuResultats, bouPremierRead; //Boutons du technicien
    private JButton bouLogout;
@@ -29,6 +29,8 @@ public class InterfaceUtilisateur  extends JPanel{
         str2=psswd;
         frame = formulaireClient;
         //Boutons
+        
+        ////Secretaire
         bouNouvClient = new JButton ("Créer Nouveau Client");
         bouNouvClient.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
@@ -59,6 +61,15 @@ public class InterfaceUtilisateur  extends JPanel{
         } 
         });
 
+        bouVoirListes = new JButton ("Visualiser les listes");
+        bouVoirListes.addActionListener(new ActionListener(){
+        public void actionPerformed(ActionEvent e){
+            visuListes visuL = new visuListes(frame);
+            frame.setFrame(visuL);
+        } 
+        });
+        
+        ////Validator
         bouVisuCommande = new JButton ("Visualiser la Commande");
         bouVisuCommande.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
@@ -75,6 +86,7 @@ public class InterfaceUtilisateur  extends JPanel{
         bouNouvSexing = new JButton ("Créer Test de Sexage");
         bouSecondRead = new JButton ("Effectuer Seconde Lecture");
 
+        ////Technician
         bouMicroplaques = new JButton ("Faire Microplaque");
         bouVisuResultats = new JButton ("Visualiser Resultats");
         bouPremierRead = new JButton ("Effectuer Première Lecture");
@@ -102,11 +114,12 @@ public class InterfaceUtilisateur  extends JPanel{
        //ce panel sera mis en visible(false) si l'utilisateur est un validateur 
        //ou un technicien
        JPanel panelSecretaire = new JPanel();
-       panelSecretaire.setLayout(new GridLayout(4,1));
+       panelSecretaire.setLayout(new GridLayout(5,1));
        panelSecretaire.add(bouNouvClient);
        panelSecretaire.add(bouNouvCommande);
        panelSecretaire.add(bouNouvEspece);
        panelSecretaire.add(bouNouvCategorie);
+       panelSecretaire.add(bouVoirListes);
 
        //Troisieme panel: les actions que peut faire le validateur
        //ce panel sera mis en visible(false) si l'utilisateur est une secrétaire
@@ -169,7 +182,7 @@ public class InterfaceUtilisateur  extends JPanel{
     }
 
        //Bouton Logout
-        bouLogout = new JButton ("Déconnection");
+        bouLogout = new JButton ("Déconnexion ");
         bouLogout.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
             Login connectionPanel = new Login(frame);
@@ -194,7 +207,6 @@ public class InterfaceUtilisateur  extends JPanel{
        this.setVisible(true); 
            
    }
-   
    
     
    public JPanel getPanel(){
