@@ -1,5 +1,6 @@
 package genindex;
 
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,8 +17,8 @@ public class InterfaceUtilisateur  extends JPanel{
    private JButton bouMicroplaques, bouVisuResultats, bouPremierRead; //Boutons du technicien
    private JButton bouLogout;
    private JPanel panLogout;
-   private JLabel labFonctionUser;
-   private JTextArea textFonctionUser;
+   private JLabel labFonctionUser,labAction;
+   private JTextField textFonctionUser;
    private Frame_mother frame;
    private JPasswordField pass1;
    private JTextField tf1;
@@ -95,58 +96,83 @@ public class InterfaceUtilisateur  extends JPanel{
         labFonctionUser = new JLabel ("Fonction: ");
         labFonctionUser.setHorizontalAlignment(JLabel.CENTER);
         labFonctionUser.setVerticalAlignment(JLabel.CENTER);
+        labAction = new JLabel ("ACTIONS: ");
+        labAction.setHorizontalAlignment(JLabel.CENTER);
+        labAction.setVerticalAlignment(JLabel.CENTER);
 
         tf1 = new JTextField();
         pass1 = new JPasswordField();
 
-        //TextArea
-        textFonctionUser = new JTextArea(3, 20);
+        //TextField fonction
+        textFonctionUser = new JTextField();
+        textFonctionUser.setHorizontalAlignment(JTextField.CENTER);
+        textFonctionUser.setFont(new Font("Arial", Font.BOLD, 16));
         textFonctionUser.setEditable(false);
        
-       //Panels
-       //Premier panel: il comprend les informations de l'utilisateur
-       JPanel infoUser = new JPanel();
-       infoUser.setLayout(new GridLayout(3,2));
-       infoUser.add(labFonctionUser);
-       infoUser.add(textFonctionUser);
+        //Bouton Logout
+        bouLogout = new JButton ("Déconnexion ");
+        bouLogout.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            Login connectionPanel = new Login(frame);
+            frame.setFrame(connectionPanel);}
+        });
+        JPanel panLogout = new JPanel();
+        panLogout.setLayout(new GridLayout(2,1));        
+        panLogout.add(bouLogout);
+        
+        //Panels
+        //Premier panel: il comprend les informations de l'utilisateur
+        JPanel infoUser = new JPanel();
+        infoUser.setLayout(new GridLayout(4,1));
+        infoUser.add(labFonctionUser);
+        infoUser.add(textFonctionUser);
+        infoUser.add(panLogout);
+        infoUser.add(labAction);
 
-       //Second panel: les actions que peut faire la secrétaire spécifiquement
-       //ce panel sera mis en visible(false) si l'utilisateur est un validateur 
-       //ou un technicien
-       JPanel panelSecretaire = new JPanel();
-       panelSecretaire.setLayout(new GridLayout(5,1));
-       panelSecretaire.add(bouNouvClient);
-       panelSecretaire.add(bouNouvCommande);
-       panelSecretaire.add(bouNouvEspece);
-       panelSecretaire.add(bouNouvCategorie);
-       panelSecretaire.add(bouVoirListes);
+        //Second panel: les actions que peut faire la secrétaire spécifiquement
+        //ce panel sera mis en visible(false) si l'utilisateur est un validateur 
+        //ou un technicien
+        JPanel panelSecretaire = new JPanel();
+        panelSecretaire.setLayout(new GridLayout(5,1));
+        panelSecretaire.add(bouNouvClient);
+        panelSecretaire.add(bouNouvCommande);
+        panelSecretaire.add(bouNouvEspece);
+        panelSecretaire.add(bouNouvCategorie);
+        panelSecretaire.add(bouVoirListes);
 
-       //Troisieme panel: les actions que peut faire le validateur
-       //ce panel sera mis en visible(false) si l'utilisateur est une secrétaire
-       //ou un technicien
-       JPanel panelValidateur = new JPanel();
-       panelValidateur.setLayout(new GridLayout(4,1));
-       panelValidateur.add(bouVisuCommande);
-       panelValidateur.add(bouNouvScrapie);
-       panelValidateur.add(bouNouvSexing);
-       panelValidateur.add(bouSecondRead);
+        //Troisieme panel: les actions que peut faire le validateur
+        //ce panel sera mis en visible(false) si l'utilisateur est une secrétaire
+        //ou un technicien
+        JPanel panelValidateur = new JPanel();
+        panelValidateur.setLayout(new GridLayout(4,1));
+        panelValidateur.add(bouVisuCommande);
+        panelValidateur.add(bouNouvScrapie);
+        panelValidateur.add(bouNouvSexing);
+        panelValidateur.add(bouSecondRead);
 
-       //Quatrieme panel: les actions que peut faire le Technicien
-       //ce panel sera mis en visible(false) si l'utilisateur est une secrétaire
-       //ou un technicien
-       JPanel panelTechnicien = new JPanel();
-       panelTechnicien.setLayout(new GridLayout(4,1));
-       panelTechnicien.add(bouMicroplaques);
-       panelTechnicien.add(bouVisuResultats);
-       panelTechnicien.add(bouPremierRead);
+        //Quatrieme panel: les actions que peut faire le Technicien
+        //ce panel sera mis en visible(false) si l'utilisateur est une secrétaire
+        //ou un technicien
+        JPanel panelTechnicien = new JPanel();
+        panelTechnicien.setLayout(new GridLayout(4,1));
+        panelTechnicien.add(bouMicroplaques);
+        panelTechnicien.add(bouVisuResultats);
+        panelTechnicien.add(bouPremierRead);
 
-       //Parametres de visibilité des panels fonction
-       panelSecretaire.setVisible(false);
-       panelTechnicien.setVisible(false);
-       panelValidateur.setVisible(false);
+        //Parametres de visibilité des panels fonction
+//       panelSecretaire.setVisible(false);
+//       panelTechnicien.setVisible(false);
+//       panelValidateur.setVisible(false);
 
 
-       //Récupération de la fonction de l'utilisateur -- ne fonctionne pas
+        
+        //Panel regroupant les autres panels
+        JPanel panelGeneral = new JPanel();
+        panelGeneral.setLayout(new GridLayout(2,1));
+        panelGeneral.add(infoUser);
+
+
+        //Récupération de la fonction de l'utilisateur 
         try
             {
             Class.forName("com.mysql.jdbc.Driver");
@@ -161,46 +187,34 @@ public class InterfaceUtilisateur  extends JPanel{
             //login:secretary  mdp: secretary
             if (result.equals("Secretary")){
                 System.out.println("Secretaire");
-                panelSecretaire.setVisible(true);
+                panelGeneral.add(panelSecretaire);           
+                //panelSecretaire.setVisible(true);
                 textFonctionUser.setText("Secretaire");
             //le jobid de Technicien est 3
             //login:technician  mdp:technician
-            }else if (result.equals("Technician")){
-                panelTechnicien.setVisible(true);
+            }else if (result.equals("Technician")){        
+                panelGeneral.add(panelTechnicien);
+                //panelTechnicien.setVisible(true);
                 textFonctionUser.setText("Technicien");
             }
              //le jobid de Validateur est 2 
              //login:validator  mdp:validator
             else if (result.equals("Validator")){
-                panelValidateur.setVisible(true);
+                panelGeneral.add(panelValidateur);
+                //panelValidateur.setVisible(true);
                 textFonctionUser.setText("Validateur");
             }
-            }
-    catch (Exception ex)
-    {
-        System.out.println(ex);
-    }
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex);
+        }
 
-       //Bouton Logout
-        bouLogout = new JButton ("Déconnexion ");
-        bouLogout.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-            Login connectionPanel = new Login(frame);
-            frame.setFrame(connectionPanel);}
-        });
-        JPanel panLogout = new JPanel();
-        panLogout.setLayout(new GridLayout(3,3));        
-        panLogout.add(bouLogout);
-        
-        //Panel regroupant les autres panels
-        JPanel panelGeneral = new JPanel();
-        panelGeneral.setLayout(new GridLayout(5,1));
-        panelGeneral.add(infoUser);
-        panelGeneral.add(panelSecretaire);           
-        panelGeneral.add(panelTechnicien);
-        panelGeneral.add(panelValidateur);
-        panelGeneral.add(panLogout);
-        
+
+//        panelGeneral.add(panelSecretaire);           
+//        panelGeneral.add(panelTechnicien);
+//        panelGeneral.add(panelValidateur);
+
        //this setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        this.add(panelGeneral);
        //this.pack();
@@ -208,7 +222,6 @@ public class InterfaceUtilisateur  extends JPanel{
            
    }
    
-    
    public JPanel getPanel(){
         return this;
     } 
