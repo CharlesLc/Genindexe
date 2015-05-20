@@ -12,8 +12,8 @@ import java.sql.*;
  */
 public class InterfaceUtilisateur  extends JPanel{
    private JButton bouNouvClient, bouNouvCommande, bouNouvEspece, bouNouvCategorie;//Boutons de la secretaire
-   private JButton bouVisuCommande, bouNouvScrapie, bouNouvSexing;//Boutons du validateur
-   private JButton bouMicroplaques, bouVisuResultats; //Boutons du technicien
+   private JButton bouVisuCommande, bouNouvScrapie, bouNouvSexing, bouSecondRead;//Boutons du validateur
+   private JButton bouMicroplaques, bouVisuResultats, bouPremierRead; //Boutons du technicien
    private JButton bouLogout;
    private JPanel panLogout;
    private JLabel labFonctionUser;
@@ -65,13 +65,13 @@ public class InterfaceUtilisateur  extends JPanel{
             rechercheCommande visuCommande = new rechercheCommande(frame);
             frame.setFrame(visuCommande);}
         });
-        bouNouvScrapie = new JButton ("Créer Test de Tremblement");
-        
+        bouNouvScrapie = new JButton ("Créer Test de Tremblement");      
         bouNouvSexing = new JButton ("Créer Test de Sexage");
-        
+        bouSecondRead = new JButton ("Effectuer Seconde Lecture");
 
         bouMicroplaques = new JButton ("Faire Microplaque");
         bouVisuResultats = new JButton ("Visualiser Resultats");
+        bouPremierRead = new JButton ("Effectuer Première Lecture");
 
         //Labels
         labFonctionUser = new JLabel ("Fonction: ");
@@ -106,18 +106,20 @@ public class InterfaceUtilisateur  extends JPanel{
        //ce panel sera mis en visible(false) si l'utilisateur est une secrétaire
        //ou un technicien
        JPanel panelValidateur = new JPanel();
-       panelValidateur.setLayout(new GridLayout(3,1));
+       panelValidateur.setLayout(new GridLayout(4,1));
        panelValidateur.add(bouVisuCommande);
        panelValidateur.add(bouNouvScrapie);
        panelValidateur.add(bouNouvSexing);
+       panelValidateur.add(bouSecondRead);
 
        //Quatrieme panel: les actions que peut faire le Technicien
        //ce panel sera mis en visible(false) si l'utilisateur est une secrétaire
        //ou un technicien
        JPanel panelTechnicien = new JPanel();
-       panelTechnicien.setLayout(new GridLayout(3,1));
+       panelTechnicien.setLayout(new GridLayout(4,1));
        panelTechnicien.add(bouMicroplaques);
        panelTechnicien.add(bouVisuResultats);
+       panelTechnicien.add(bouPremierRead);
 
        //Parametres de visibilité des panels fonction
        panelSecretaire.setVisible(false);
