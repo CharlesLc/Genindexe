@@ -65,7 +65,13 @@ public class InterfaceUtilisateur  extends JPanel{
             rechercheCommande visuCommande = new rechercheCommande(frame);
             frame.setFrame(visuCommande);}
         });
-        bouNouvScrapie = new JButton ("Créer Test de Tremblement");      
+        bouNouvScrapie = new JButton ("Créer Test de Tremblement");  
+        bouNouvScrapie.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            ScrapieTest scrapieteste = new ScrapieTest(frame);
+            frame.setFrame(scrapieteste);}
+        });
+        
         bouNouvSexing = new JButton ("Créer Test de Sexage");
         bouSecondRead = new JButton ("Effectuer Seconde Lecture");
 
