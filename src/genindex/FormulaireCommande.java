@@ -5,21 +5,10 @@
  */
 package genindex;
 
-import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import javax.swing.BoxLayout;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
+import java.awt.*;
+import java.awt.event.*;
+import java.sql.*;
+import javax.swing.*;
 
 /**
  *
@@ -40,12 +29,18 @@ public class FormulaireCommande extends JPanel implements ActionListener{
     
     private final JButton Envoyer;
     private final JButton Annuler; 
+    private final JTextField titre;
     private final Frame_mother frame; 
     
     private String cat, esp, ana, SelectClient;
   
     public FormulaireCommande (Frame_mother interfaceUti) {
     
+    // Titre page
+    titre = new JTextField("Création d'une commande");
+    titre.setEditable(false);
+    titre.setFont(new Font("Serif", Font.BOLD, 20));    
+        
     frame = interfaceUti;
     
     JPanel p1 = new JPanel();
@@ -123,13 +118,14 @@ public class FormulaireCommande extends JPanel implements ActionListener{
     
     JPanel global = new JPanel(); 
     global.setLayout(new BoxLayout(global, BoxLayout.PAGE_AXIS));
+    global.add(titre);
     global.add(p1);
     global.add(p2);
     global.add(p3);
     global.add(p4);
     global.add(p5);
     global.add(p6);
-    
+
     this.add(global);
     
     }

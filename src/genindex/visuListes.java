@@ -18,7 +18,7 @@ public class visuListes  extends JPanel implements ActionListener{
     
     private JButton bouListCustomer;
     private Frame_mother frame;
-    private JLabel titre;
+    private JTextField titre;
     private JPanel panelPrincipal;
     private JPanel panelBoutons;
     private JTextField listName;
@@ -33,12 +33,13 @@ public class visuListes  extends JPanel implements ActionListener{
         frame = interfaceUti;
         
         panelPrincipal = new JPanel();
-        panelPrincipal.setLayout(new GridLayout(4,1));
+        panelPrincipal.setLayout(new GridLayout(3,1));
         
         panelBoutons = new JPanel();
         panelBoutons.setLayout(new GridLayout(7,2));
         
         listName = new JTextField();
+        listName.setEditable(false);
         listName.setHorizontalAlignment(JTextField.CENTER);
         listName.setFont(new Font("Serif", Font.BOLD, 16));
         
@@ -46,9 +47,9 @@ public class visuListes  extends JPanel implements ActionListener{
         theJScrollPane = new JScrollPane(theTextArea);
         
         // Titre page
-        titre = new JLabel("Visualisation des listes");
-        titre.setFont(new Font("Serif", Font.BOLD, 20));
-        
+        titre = new JTextField("Visualisation des listes");
+        titre.setEditable(false);
+        titre.setFont(new Font("Serif", Font.BOLD, 20)); 
         
         /////// LABELS
         //Liste Client
