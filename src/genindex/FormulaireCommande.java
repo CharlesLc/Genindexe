@@ -109,6 +109,7 @@ public class FormulaireCommande extends JPanel implements ActionListener{
     JPanel p6 = new JPanel();
     p6.setLayout(new BoxLayout(p6, BoxLayout.LINE_AXIS));
     Envoyer = new JButton("Envoyer");
+    Envoyer.addActionListener(this);
     Annuler = new JButton("Annuler");
     Annuler.addActionListener(new ActionListener() {
         public void actionPerformed(ActionEvent e) {
@@ -144,40 +145,116 @@ public class FormulaireCommande extends JPanel implements ActionListener{
         cat = TextCategorie.getText();
         esp = TextEspece.getText();
         ana = TextAnalyse.getText();
+        String IDClient = "";
+        String IDEspece = "";
+        String IDScrapieTest = "";
+        String IDSexingTest = "";
+        String IDCommande = "";
         
         try
         {
+            // Connexion à la base de donnée
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://192.168.24.16/td2","td2","OST");
-            PreparedStatement recherche = con.prepareStatement("Faire des jointures where categorie=? and specie=? and analyse=?");
-            recherche.setString(1, cat);
-            recherche.setString(2, esp);
-            recherche.setString(2, ana);
+            
+            // Récupère l'ID du client sélectionnée dans la liste déroulante de la table customer de la base de donnée 
+            PreparedStatement rechercheIDClient = con.prepareStatement("Select customerID From customer Where name=?");
+            rechercheIDClient.setString(1, SelectClient);
+            ResultSet resultatRechercheIDClient = rechercheIDClient.executeQuery();
+            if (resultatRechercheIDClient.next())
+            {
+                IDClient = resultatRechercheIDClient.getString("customerID");
+            }
+            
+            // Vérifie si l'espèce et la catégorie sont cohérent
+            PreparedStatement recherche = con.prepareStatement("Select * From specie Where nameSpecie=? and nameCat=?");
+            recherche.setString(1, esp);
+            recherche.setString(2, cat);
             ResultSet resultatRecherche = recherche.executeQuery();
             if (resultatRecherche.next())
             {
-                // Déjà présent
-                JOptionPane.showMessageDialog(null,"La commande existe déjà");
+                IDEspece = resultatRecherche.getString("specieID");
+                
+                //Vérifie si l'analyse donnée exsiste dans la table scrapieTest pour l'espèce donnée
+                PreparedStatement rechercheAnalyse = con.prepareStatement("Select * From scrapieTest Where nameT=? and specieId=?");
+                rechercheAnalyse.setString(1, ana);
+                rechercheAnalyse.setString(2, IDEspece);
+                ResultSet resultatRechercheAnalyse = rechercheAnalyse.executeQuery();
+                
+                //Vérifie si l'analyse donnée exsiste dans la table sexingTest pour l'espèce donnée
+                PreparedStatement rechercheAnalyse2 = con.prepareStatement("Select * From sexingTest Where nameT=? and specieId=?");
+                rechercheAnalyse2.setString(1, ana);
+                rechercheAnalyse2.setString(2, IDEspece);
+                ResultSet resultatRechercheAnalyse2 = rechercheAnalyse2.executeQuery(); 
+                boolean Analyse = resultatRechercheAnalyse.next();
+                
+                // Si l'analyse existe dans l'une des deux tables alors
+                if (Analyse || resultatRechercheAnalyse2.next()) 
+                {
+                    if (Analyse) 
+                    {
+                        IDScrapieTest = resultatRechercheAnalyse.getString("scrapieTID");
+                        IDSexingTest = "NULL";
+                    }
+                    else {
+                        IDSexingTest = resultatRechercheAnalyse2.getString("sexingTID");
+                        IDScrapieTest = "NULL";
+                    }
+                    
+                    // Ajout d'une nouvelle commande dans la table order
+                    PreparedStatement ajoutOrder = con.prepareStatement("insert into orders (customerID, status) values(?,?);", Statement.RETURN_GENERATED_KEYS);
+                    ajoutOrder.setString(1, IDClient);
+                    ajoutOrder.setString(2, "In Analysis");
+                    int resultatAjoutOrder = ajoutOrder.executeUpdate();
+                    
+                    // Recupère l'identifiant de la commande que l'on vient d'ajouter dans la base de donnée
+                    ResultSet resIDOrder = ajoutOrder.getGeneratedKeys();
+                    while (resIDOrder.next()) {
+                        IDCommande = resIDOrder.getString(1);
+                    }
+                    
+                    // Ajout dans la table order réussi
+                    if (resultatAjoutOrder == 1)
+                    {
+                        //Ajout de l'analyse dans la table sample
+                        PreparedStatement ajoutSample = con.prepareStatement("insert into sample (orderID, specieID, scrapieTID, sexingTID) values(?,?,?,?)");
+                        ajoutSample.setString(1, IDCommande);
+                        ajoutSample.setString(2, IDEspece);
+                        if (IDSexingTest == "NULL") {
+                            ajoutSample.setString(3, IDScrapieTest);
+                            ajoutSample.setNull(4, java.sql.Types.INTEGER);
+                        }
+                        else {
+                            ajoutSample.setNull(3, java.sql.Types.INTEGER);
+                            ajoutSample.setString(4, IDSexingTest);
+                        }
+                        int resultatAjoutSample = ajoutSample.executeUpdate();
+                        
+                        //vérifie si l'ajout dans les tables order et semple à bien été fait 
+                        if (resultatAjoutSample == 1)
+                        {
+                            // Ajout réussi
+                            TextCategorie.setText("Entrer la catégorie");
+                            TextEspece.setText("Entrer l'espèce");
+                            TextAnalyse.setText("Entrer l'analyse");
+                            JOptionPane.showMessageDialog(null,"Ajout réussi");
+                        }
+                        else 
+                        {
+                            // Ajout non réussi
+                            JOptionPane.showMessageDialog(null,"Ajout non réussi");
+                        } 
+                    } 
+                }
+                else
+                {
+                    JOptionPane.showMessageDialog(null,"L'analyse et l'espèce ne sont pas compatible");
+                }
             }
-//            else
-//            {
-//                PreparedStatement ajout = con.prepareStatement("insert into customer(name,town) values(?,?)");
-//                ajout.setString(1, nom);
-//                ajout.setString(2, ville);
-//                int resultatAjout = ajout.executeUpdate();
-//                if (resultatAjout == 1)
-//                {
-//                    // Ajout réussi
-//                    textVille.setText("");
-//                    textNom.setText("");
-//                    JOptionPane.showMessageDialog(null,"Ajout réussi");
-//                }
-//                else 
-//                {
-//                    // Ajout non réussi
-//                    JOptionPane.showMessageDialog(null,"Ajout non réussi");
-//                } 
-//            }
+            else
+            {
+                JOptionPane.showMessageDialog(null,"L'espèce et la catégorie ne sont pas compatible");
+            }
             
         }
         catch (Exception ex)
