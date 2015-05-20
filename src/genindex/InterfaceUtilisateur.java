@@ -16,8 +16,8 @@ public class InterfaceUtilisateur  extends JPanel{
    private JButton bouMicroplaques, bouVisuResultats; //Boutons du technicien
    private JButton bouLogout;
    private JPanel panLogout;
-   private JLabel labFonctionUser, labNomUser, labPrenomUser;
-   private JTextArea textFonctionUser, textNomUser, textPrenomUser;
+   private JLabel labFonctionUser;
+   private JTextArea textFonctionUser;
    private Frame_mother frame;
    private JPasswordField pass1;
    private JTextField tf1;
@@ -66,7 +66,9 @@ public class InterfaceUtilisateur  extends JPanel{
             frame.setFrame(visuCommande);}
         });
         bouNouvScrapie = new JButton ("Créer Test de Tremblement");
+        
         bouNouvSexing = new JButton ("Créer Test de Sexage");
+        
 
         bouMicroplaques = new JButton ("Faire Microplaque");
         bouVisuResultats = new JButton ("Visualiser Resultats");
@@ -76,35 +78,19 @@ public class InterfaceUtilisateur  extends JPanel{
         labFonctionUser.setHorizontalAlignment(JLabel.CENTER);
         labFonctionUser.setVerticalAlignment(JLabel.CENTER);
 
-        labNomUser = new JLabel ("Nom: ");
-        labNomUser.setHorizontalAlignment(JLabel.CENTER);
-        labNomUser.setVerticalAlignment(JLabel.CENTER);
-
-        labPrenomUser = new JLabel ("Prénom: ");
-        labPrenomUser.setHorizontalAlignment(JLabel.CENTER);
-        labPrenomUser.setVerticalAlignment(JLabel.CENTER);
-
         tf1 = new JTextField();
         pass1 = new JPasswordField();
 
         //TextArea
         textFonctionUser = new JTextArea(3, 20);
         textFonctionUser.setEditable(false);
-        textNomUser = new JTextArea(3, 20);
-        textNomUser.setEditable(false);
-        textPrenomUser = new JTextArea(3, 20);
-        textPrenomUser.setEditable(false);
-
+       
        //Panels
        //Premier panel: il comprend les informations de l'utilisateur
        JPanel infoUser = new JPanel();
        infoUser.setLayout(new GridLayout(3,2));
        infoUser.add(labFonctionUser);
        infoUser.add(textFonctionUser);
-       infoUser.add(labNomUser);
-       infoUser.add(textNomUser);
-       infoUser.add(labPrenomUser);
-       infoUser.add(textPrenomUser);
 
        //Second panel: les actions que peut faire la secrétaire spécifiquement
        //ce panel sera mis en visible(false) si l'utilisateur est un validateur 
@@ -155,15 +141,18 @@ public class InterfaceUtilisateur  extends JPanel{
             if (result.equals("Secretary")){
                 System.out.println("Secretaire");
                 panelSecretaire.setVisible(true);
+                textFonctionUser.setText("Secretaire");
             //le jobid de Technicien est 3
             //login:technician  mdp:technician
             }else if (result.equals("Technician")){
                 panelTechnicien.setVisible(true);
+                textFonctionUser.setText("Technicien");
             }
              //le jobid de Validateur est 2 
              //login:validator  mdp:validator
             else if (result.equals("Validator")){
                 panelValidateur.setVisible(true);
+                textFonctionUser.setText("Validateur");
             }
             }
     catch (Exception ex)
