@@ -1,3 +1,4 @@
+package genindex;
 
 /**
  * The result from an analysis for a sample

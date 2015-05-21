@@ -1,4 +1,6 @@
 //tests
+package genindex;
+
 import java.util.*;
 
 abstract class Analysis {

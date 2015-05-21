@@ -1,3 +1,4 @@
+package genindex;
 
 class SexingResult extends Result {
   /**

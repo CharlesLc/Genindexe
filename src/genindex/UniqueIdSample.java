@@ -1,3 +1,4 @@
+package genindex;
 
 /**
  * Delivers a unique ID number for the samples.
