@@ -97,6 +97,12 @@ public class InterfaceUtilisateur  extends JPanel{
         bouMicroplaques = new JButton ("Faire Microplaque");
         bouVisuResultats = new JButton ("Visualiser Resultats");
         bouPremierRead = new JButton ("Effectuer Première Lecture");
+        bouPremierRead.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            InsertionDonnees inserer = new InsertionDonnees(frame);
+            frame.setFrame(inserer);}
+        });
+
 
         //Labels
         labFonctionUser = new JLabel ("Fonction: ");
