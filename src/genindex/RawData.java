@@ -1,6 +1,6 @@
 package genindex;
 
-class RawData {
+public class RawData {
   /**
    * Peak position
    */
