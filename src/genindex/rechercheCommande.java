@@ -39,7 +39,7 @@ public class rechercheCommande extends JPanel implements ActionListener{
         frame = interfaceUti;
         
         // Titre page
-        titre = new JTextField("Visualisation des listes");
+        titre = new JTextField("Visualisation des commandes");
         titre.setEditable(false);
         titre.setFont(new Font("Serif", Font.BOLD, 20)); 
        

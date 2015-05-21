@@ -33,7 +33,7 @@ public class FormulaireClient extends JPanel implements ActionListener{
     public FormulaireClient (Frame_mother interfaceUti) {
         
         // Titre page
-        titre = new JTextField("Création d'une client");
+        titre = new JTextField("Création d'un client");
         titre.setEditable(false);
         titre.setFont(new Font("Serif", Font.BOLD, 20));
         
