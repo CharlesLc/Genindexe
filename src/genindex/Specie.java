@@ -1,7 +1,8 @@
+package genindex;
 
 import java.util.*;
 
-class Specie {
+public class Specie {
   /**
    * Name of the specie
    */

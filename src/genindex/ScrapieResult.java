@@ -1,3 +1,4 @@
+package genindex;
 
 public class ScrapieResult extends Result {
   /**

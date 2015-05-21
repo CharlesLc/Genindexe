@@ -1,3 +1,4 @@
+package genindex;
 
 public enum ResultStatus {
   UNREADABLE,/**

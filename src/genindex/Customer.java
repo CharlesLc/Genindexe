@@ -1,7 +1,8 @@
+package genindex;
 
 import java.util.*;
 
-class Customer {
+public class Customer {
   /**
    * The different orders for the customer
    */
