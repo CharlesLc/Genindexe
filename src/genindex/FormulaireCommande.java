@@ -14,25 +14,25 @@ import javax.swing.*;
  *
  * @author Ju'
  */
-public class FormulaireCommande extends JPanel implements ActionListener{
+public class FormulaireCommande extends JPanel{
     
-    private final JLabel Client;
-    private final JComboBox ListClient;
-    private final JLabel Categorie;
-    private final JTextField TextCategorie;
-    private final JLabel Espece;
-    private final JTextField TextEspece;
-    private final JLabel Analyse;
-    private final JTextField TextAnalyse;
-    private final JLabel Statut;
-    private final JLabel AfficheStatut;
+    private JLabel Client;
+    private  JComboBox ListClient,ListCategorie,ListEspece,ListAnalyse;
+    private JLabel Categorie;
+    private JLabel Espece;
+    private JLabel Analyse;
+    private JLabel Statut;
+    private JLabel AfficheStatut;
     
-    private final JButton Envoyer;
-    private final JButton Annuler; 
-    private final JTextField titre;
-    private final Frame_mother frame; 
+    private JButton Envoyer;
+    private JButton Annuler; 
+    private JTextField titre;
+    private Frame_mother frame; 
     
-    private String cat, esp, ana, SelectClient;
+    private JPanel p1,p2;
+    
+    private String cat, esp, ana;
+    private String SelectClient,SelectCategorie,SelectEspece,SelectAnalyse;
   
     public FormulaireCommande (Frame_mother interfaceUti) {
     
@@ -43,13 +43,17 @@ public class FormulaireCommande extends JPanel implements ActionListener{
         
     frame = interfaceUti;
     
-    JPanel p1 = new JPanel();
-    p1.setLayout(new BoxLayout(p1, BoxLayout.LINE_AXIS));
+    p1 = new JPanel();
+    p1.setLayout(new GridLayout(5,1));
     Client = new JLabel(" Client : ", JLabel.CENTER);
     Client.setPreferredSize(new Dimension(120, 30));
     // Affiche une liste déroulante contenant les nom des client présent dans la base de donnée
     ListClient = new JComboBox();
     ListClient.setPreferredSize(new Dimension(160, 30));
+    
+    p1.add(Client);
+    p1.add(ListClient);
+    
     try
         {
             Class.forName("com.mysql.jdbc.Driver");
@@ -65,90 +69,133 @@ public class FormulaireCommande extends JPanel implements ActionListener{
             System.out.println(ex);
         }
 
-    p1.add(Client);
-    p1.add(ListClient);
-    
-    JPanel p2 = new JPanel();
-    p2.setLayout(new BoxLayout(p2, BoxLayout.LINE_AXIS));
-    Categorie = new JLabel(" Categorie : ", JLabel.CENTER);
-    Categorie.setPreferredSize(new Dimension(120, 30));
-    TextCategorie = new JTextField("Entrer la catégorie");
-    TextCategorie.setPreferredSize(new Dimension(160, 30));
-    p2.add(Categorie);
-    p2.add(TextCategorie);
-    
-    JPanel p3 = new JPanel();
-    p3.setLayout(new BoxLayout(p3, BoxLayout.LINE_AXIS));
-    Espece = new JLabel(" Espece : ", JLabel.CENTER);
-    Espece.setPreferredSize(new Dimension(120, 30));
-    TextEspece = new JTextField("Entrer l'espèce");
-    TextEspece.setPreferredSize(new Dimension(160, 30));
-    p3.add(Espece);
-    p3.add(TextEspece);
-    
-    JPanel p4 = new JPanel();
-    p4.setLayout(new BoxLayout(p4, BoxLayout.LINE_AXIS));
-    Analyse = new JLabel(" Analyse : ", JLabel.CENTER);
-    Analyse.setPreferredSize(new Dimension(120, 30));
-    TextAnalyse = new JTextField("Entrer l'analyse");
-    TextAnalyse.setPreferredSize(new Dimension(160, 30));
-    p4.add(Analyse);
-    p4.add(TextAnalyse);
-    
-    JPanel p5 = new JPanel();
-    p5.setLayout(new BoxLayout(p5, BoxLayout.LINE_AXIS));
-    Statut = new JLabel(" Statut : ", JLabel.CENTER);
-    AfficheStatut = new JLabel ("Affichier le statut en cours");
-    // A voir si on rajoute un truc pour les echantillons
-    
-    JPanel p6 = new JPanel();
-    p6.setLayout(new BoxLayout(p6, BoxLayout.LINE_AXIS));
-    Envoyer = new JButton("Envoyer");
-    Envoyer.addActionListener(this);
-    Annuler = new JButton("Annuler");
-    Annuler.addActionListener(new ActionListener() {
-        public void actionPerformed(ActionEvent e) {
-            InterfaceUtilisateur secretaire = new InterfaceUtilisateur(frame,"","");
-            frame.setFrame(secretaire);
-        }
-    });
-   
-    p6.add(Envoyer);
-    p6.add(Annuler);
-    
-    JPanel global = new JPanel(); 
-    global.setLayout(new BoxLayout(global, BoxLayout.PAGE_AXIS));
-    global.add(titre);
-    global.add(p1);
-    global.add(p2);
-    global.add(p3);
-    global.add(p4);
-    global.add(p5);
-    global.add(p6);
 
-    this.add(global);
     
-    }
     
-    public JPanel getPanel(){
-        return this;
-    }
-
-    @Override
-    public void actionPerformed(ActionEvent e) {
+        // Affiche une liste déroulante contenant les catégories d'espèces présentes dans la base de donnée
+        ListCategorie = new JComboBox();
+        ListCategorie.setPreferredSize(new Dimension(160, 30));
+        p1.add(ListCategorie);
+        ListEspece = new JComboBox();
+        ListEspece.setPreferredSize(new Dimension(160, 30));
+        p1.add(ListEspece);
+        ListAnalyse = new JComboBox();
+        ListAnalyse.setPreferredSize(new Dimension(160, 30));
+        p1.add(ListAnalyse);
         
-        SelectClient = ListClient.getSelectedItem().toString(); // recupère le client sectionner dans la liste déroulante
-        cat = TextCategorie.getText();
-        esp = TextEspece.getText();
-        ana = TextAnalyse.getText();
-        String IDClient = "";
-        String IDEspece = "";
-        String IDScrapieTest = "";
-        String IDSexingTest = "";
-        String IDCommande = "";
-        
+        // Affiche une liste déroulante contenant les catégories d'espèces présentes dans la base de donnée
         try
         {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection con = DriverManager.getConnection("jdbc:mysql://192.168.24.16/td2","td2","OST");
+            Statement state = con.createStatement();
+            ResultSet result = state.executeQuery("select name from specieCategory ");
+            ListCategorie.addItem("Selectionner Catégorie");
+            while(result.next()){
+                ListCategorie.addItem(result.getString("name"));
+            } 
+        }
+        catch (Exception ex)
+        {
+            System.out.println(ex);
+        }
+    
+            
+        ListCategorie.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                
+                SelectCategorie = ListCategorie.getSelectedItem().toString();
+                System.out.println(SelectCategorie);
+                
+                p1.remove(ListEspece);
+                ListEspece = new JComboBox();
+                ListEspece.setPreferredSize(new Dimension(160, 30));
+                p1.add(ListEspece);
+                p1.remove(ListAnalyse);
+                ListAnalyse = new JComboBox();
+                ListAnalyse.setPreferredSize(new Dimension(160, 30));
+                p1.add(ListAnalyse);
+
+                
+                // Affiche une liste déroulante contenant les espèces présentes dans la base de donnée
+                try
+                {
+                    Class.forName("com.mysql.jdbc.Driver");
+                    Connection con = DriverManager.getConnection("jdbc:mysql://192.168.24.16/td2","td2","OST");
+                    Statement state = con.createStatement();
+                    System.out.println("2");
+                    ResultSet result = state.executeQuery("select nameSpecie,specieID from specie where nameCat = \"" + SelectCategorie + "\"");
+                    System.out.println("3");
+                    ListEspece.addItem("Selectionner Espèce");
+                    System.out.println("4");
+                    //ListEspece.setSelectedItem("Selectionner Espèce");
+                    while(result.next()){
+                        System.out.println("#");
+                        ListEspece.addItem(result.getString("nameSpecie"));
+                    }           
+                }
+                catch (Exception ex)
+                {
+                    System.out.println(ex);
+                }
+
+                ListEspece.addActionListener(new ActionListener() {
+                    public void actionPerformed(ActionEvent e) {
+
+                        SelectEspece = ListEspece.getSelectedItem().toString();
+                        System.out.println(SelectEspece);
+
+
+                        p1.remove(ListAnalyse);
+                        ListAnalyse = new JComboBox();
+                        ListAnalyse.setPreferredSize(new Dimension(160, 30));
+                        p1.add(ListAnalyse);
+                        // Affiche une liste déroulante contenant les analyses présentes dans la base de donnée
+                        try
+                        {
+                            Class.forName("com.mysql.jdbc.Driver");
+                            Connection con = DriverManager.getConnection("jdbc:mysql://192.168.24.16/td2","td2","OST");
+                            Statement state = con.createStatement();
+                            ResultSet result = state.executeQuery("select nameT from scrapieTest where specieID = (select specieID from specie where nameSpecie = \"" + SelectEspece + "\")");
+                            //ListAnalyse.addItem("");
+                            //ListAnalyse.removeAllItems();
+                            ListAnalyse.addItem("Selectionner Analyse");
+                            //ListAnalyse.setSelectedItem("Selectionner Analyse");
+
+                            while(result.next()){
+                                ListAnalyse.addItem(result.getString("nameT"));
+                            } 
+                            result = state.executeQuery("select nameT from sexingTest where specieID = (select specieID from specie where nameSpecie = \"" + SelectEspece + "\")");
+                            while(result.next()){
+                                ListAnalyse.addItem(result.getString("nameT"));
+                            } 
+                        }
+                        catch (Exception ex)
+                        {
+                            System.out.println(ex);
+                        }
+                    }
+                });
+            }
+        });
+
+    p2 = new JPanel();
+    p2.setLayout(new BoxLayout(p2, BoxLayout.LINE_AXIS));
+    Envoyer = new JButton("Envoyer");
+    Envoyer.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            SelectClient = ListClient.getSelectedItem().toString(); // recupère le client sectionnée dans la liste déroulante
+            cat = ListCategorie.getSelectedItem().toString(); // recupère la catégorie sectionnée dans la liste déroulante
+            esp = ListEspece.getSelectedItem().toString(); // recupère l'espèce sectionnée dans la liste déroulante
+            ana = ListAnalyse.getSelectedItem().toString(); // recupère l'analyse sectionnée dans la liste déroulante
+            String IDClient = "";
+            String IDEspece = "";
+            String IDScrapieTest = "";
+            String IDSexingTest = "";
+            String IDCommande = "";
+            
+            try
+            {
             // Connexion à la base de donnée
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://192.168.24.16/td2","td2","OST");
@@ -230,9 +277,6 @@ public class FormulaireCommande extends JPanel implements ActionListener{
                         if (resultatAjoutSample == 1)
                         {
                             // Ajout réussi
-                            TextCategorie.setText("Entrer la catégorie");
-                            TextEspece.setText("Entrer l'espèce");
-                            TextAnalyse.setText("Entrer l'analyse");
                             JOptionPane.showMessageDialog(null,"Ajout réussi");
                         }
                         else 
@@ -257,6 +301,38 @@ public class FormulaireCommande extends JPanel implements ActionListener{
         {
             System.out.println(ex);
         }
-        
+            
+            
+            
+            
+        }
+    });
+
+
+    Annuler = new JButton("Annuler");
+    Annuler.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            InterfaceUtilisateur secretaire = new InterfaceUtilisateur(frame,"","");
+            frame.setFrame(secretaire);
+        }
+    });
+   
+    p2.add(Envoyer);
+    p2.add(Annuler);
+    
+    JPanel global = new JPanel(); 
+    global.setLayout(new BoxLayout(global, BoxLayout.PAGE_AXIS));
+    global.add(titre);
+    global.add(p1);
+
+    global.add(p2);
+
+    this.add(global);
+    
     }
+    
+    public JPanel getPanel(){
+        return this;
+    }
+
 }

@@ -97,6 +97,12 @@ public class InterfaceUtilisateur  extends JPanel{
         bouMicroplaques = new JButton ("Faire Microplaque");
         bouVisuResultats = new JButton ("Visualiser Resultats");
         bouPremierRead = new JButton ("Effectuer Première Lecture");
+        bouPremierRead.addActionListener(new ActionListener() {
+        public void actionPerformed(ActionEvent e) {
+            InsertionDonnees inserer = new InsertionDonnees(frame);
+            frame.setFrame(inserer);}
+        });
+
 
         //Labels
         labFonctionUser = new JLabel ("Fonction: ");
@@ -165,13 +171,7 @@ public class InterfaceUtilisateur  extends JPanel{
         panelTechnicien.add(bouVisuResultats);
         panelTechnicien.add(bouPremierRead);
 
-        //Parametres de visibilité des panels fonction
-//       panelSecretaire.setVisible(false);
-//       panelTechnicien.setVisible(false);
-//       panelValidateur.setVisible(false);
-
-
-        
+               
         //Panel regroupant les autres panels
         JPanel panelGeneral = new JPanel();
         panelGeneral.setLayout(new GridLayout(2,1));
@@ -217,9 +217,6 @@ public class InterfaceUtilisateur  extends JPanel{
         }
 
 
-//        panelGeneral.add(panelSecretaire);           
-//        panelGeneral.add(panelTechnicien);
-//        panelGeneral.add(panelValidateur);
 
        //this setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
        this.add(panelGeneral);
