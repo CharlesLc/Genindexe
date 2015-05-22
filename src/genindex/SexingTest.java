@@ -34,14 +34,14 @@ public class SexingTest extends JPanel implements ActionListener {
         textNomTest = new JTextField(20);
         textNomTest.setText("Sexing Test");
         
-        labPositionMale = new JLabel("Position");
+        labPositionMale = new JLabel("Position Male");
         textPositionMale = new JTextField(20);
-        labValeurMale = new JLabel("Valeur");
+        labValeurMale = new JLabel("Valeur Male");
         textValeurMale = new JTextField(20);
         
-        labPositionFemelle = new JLabel("Position");
+        labPositionFemelle = new JLabel("Position Femelle");
         textPositionFemelle = new JTextField(20);
-        labValeurFemelle = new JLabel("Valeur");
+        labValeurFemelle = new JLabel("Valeur Femelle");
         textValeurFemelle = new JTextField(20);
                
         // Déclaration connexion
