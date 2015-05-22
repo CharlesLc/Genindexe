@@ -21,16 +21,16 @@ public class Login
     public Login (Frame_mother h){
       
         frame=h;
-        l1 = new JLabel("Login Form");
+        l1 = new JLabel("Formulaire de connexion");
         l1.setForeground(Color.blue);
         l1.setFont(new Font("Serif", Font.BOLD, 20));
-        l2 = new JLabel("Enter Login :");
-        l3 = new JLabel("Enter Password :");
+        l2 = new JLabel("Login :");
+        l3 = new JLabel("Password :");
         tf1 = new JTextField();
         pass1 = new JPasswordField();
-        btn1 = new JButton("Submit");
+        btn1 = new JButton("Terminer");
         l = new JLabel();
-        l0 = new JLabel("you are succefully logged in..");
+        l0 = new JLabel("Connexion réussie");
         
         JPanel p1=new JPanel();
         p1.add(l1);
@@ -82,7 +82,7 @@ public class Login
             } else
             {
                 JOptionPane.showMessageDialog(null,
-                   "Incorrect email-Id or password..Try Again with correct detail");
+                   "Login ou mot de passe incorrecte.. Recommencez s'il vous plaît.");
             }
         }
         catch (Exception ex)
